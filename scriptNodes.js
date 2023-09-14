@@ -34,7 +34,7 @@ async function main() {
     let enodeHigh, enodeLow;
     let choice = 0;
     while (choice != 1 || choice != 2){
-        console.log("1 - ADD ENODE\n2 - REMOVE ENODE");
+        console.log("1 - ADD ENODE\n2 - REMOVE ENODE\n3 - VIEW ENODE");
         choice = await getInput('Enter your choice: ');
         if (choice == 1){
             enodeHigh= await getInput('Enter enodeHigh: ');
@@ -50,7 +50,13 @@ async function main() {
             enodeLow = await getInput('Enter enodeLow: ');
             let result = contract.removeEnode(enodeHigh, enodeLow);
             break;
-        } else {
+        } if (choice == 3){
+            let index = await getInput("Enter enode index: ");
+            let result = contract.getByIndex(index);
+            console.log(result);
+        }
+
+        else {
             console.log("Invalid command.");
         }
     }
