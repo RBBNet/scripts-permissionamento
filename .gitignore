@@ -8,3 +8,4 @@ lerna-debug.log*
 
 # Dependency directory
 node_modules
+src
