@@ -23,10 +23,10 @@ async function NodesMain(wallet) {
         if (choice == 1){
             enodeHigh= await getInput('Enter enodeHigh: ');
             enodeLow = await getInput('Enter enodeLow: ');
-            const nodeType = await getInput('Enter nodeType: ');
-            const name = await getInput('Enter name: ');
-            const organization = await getInput('Enter organization: ');
-            let result = contract.addEnode(enodeHigh, enodeLow,nodeType,0x39713879796b, name, organization);
+            let nodeType = await getInput('Enter nodeType: ');
+            let name = await getInput('Enter name: ');
+            let organization = await getInput('Enter organization: ');
+            let result = contract.addEnode(enodeHigh, enodeLow,nodeType,'0x39713879796b', name, organization);
             //esse 0x39713879796b é um placeholder
             break;
         } if (choice == 2){
@@ -36,8 +36,9 @@ async function NodesMain(wallet) {
             break;
         } if (choice == 3){
             let index = await getInput("Enter enode index: ");
-            let result = contract.getByIndex(index);
+            let result = await contract.getByIndex(index);
             console.log(result);
+            break;
         } if (choice == 4){
             console.log("Exiting nodes script.")
             break;

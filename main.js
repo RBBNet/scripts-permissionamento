@@ -61,7 +61,7 @@ async function main(ip_address, private_key){
     }catch (error) {
         console.error('Error:', error);
     }
-    
+
 
 
 }
