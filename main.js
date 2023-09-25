@@ -57,7 +57,7 @@ async function main(ip_address, private_key){
             }
         }
     }catch (error) {
-        console.error('Error:', error);
+        console.error("Sorry, there was an error:", error.reason +". Please try again.");
     }
 
 
