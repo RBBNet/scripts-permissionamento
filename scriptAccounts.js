@@ -3,6 +3,7 @@ const ethers = require('ethers');
 const AccountsJSON = require(path.join(__dirname, 'src/chain/abis/AccountRules.json'));
 const readline = require("readline");
 const getInput = require(path.join(__dirname, 'utils.js'));
+const addresses = require("./addresses.json");
 const ABI = AccountsJSON.abi;
 
 
@@ -16,7 +17,7 @@ async function AccountsMain(wallet){
         " /_/    \\_\\___\\___\\___/ \\__,_|_| |_|\\__|___/    |_____/ \\___|_|  |_| .__/ \\__|\n" +
         "                                                                   | |        \n" +
         "                                                                   |_|        \n");
-    let contractAddress = await getInput("Enter contract address: ");
+    let contractAddress = addresses.AccountRules;
     const contract = new ethers.Contract(contractAddress, ABI, wallet);
     let choice = 0;
     let address;

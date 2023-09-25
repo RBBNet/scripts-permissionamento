@@ -1,0 +1,6 @@
+{
+  "AccountRules": "enter contract address here",
+  "Admin": "enter contract address here",
+  "Migrations": "enter contract address here",
+  "NodeRules": "enter contract address here"
+}
