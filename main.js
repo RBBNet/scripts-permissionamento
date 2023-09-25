@@ -17,16 +17,14 @@ async function getData(){
         "                                                           |___/                        |_|        \n");
     console.log("WELCOME TO THE PERMISSIONING SCRIPT");
     console.log("First, enter the following data: ");
-    let ip_address = await getInput("Network IP: ");
-    // let port = await getInput("Network port: ");
-    // let ip_address = ip + ":" + port + "/";
+    let ip_address = await getInput("Network IP and Port (HTTP://IP:PORT): ");
     let private_key = await getInput("Your private key: ");
 
     main(ip_address, private_key);
 }
 async function main(ip_address, private_key){
 
-    const provider = new ethers.JsonRpcProvider(ip_address);
+    const provider = new ethers.providers.JsonRpcProvider(ip_address);
     try {
         const network = await provider.getNetwork();
         console.log(`Connected to network: ${network.name}`);
