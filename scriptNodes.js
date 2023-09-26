@@ -1,9 +1,10 @@
 const path = require('path');
+const fs = require('fs');
 const ethers = require('ethers');
 const NodeRulesJSON = require(path.join(__dirname, 'src/chain/abis/NodeRules.json'));
-const getInput = require(path.join(__dirname, 'utils.js'));
+const key = require(path.join(__dirname, 'key.json'));
 const ABI = NodeRulesJSON.abi;
-async function NodesMain(wallet) {
+async function main() {
     console.log("\n" +
         "  _   _           _                 _____           _       _   \n" +
         " | \\ | |         | |               / ____|         (_)     | |  \n" +
@@ -13,42 +14,56 @@ async function NodesMain(wallet) {
         " |_| \\_|\\___/ \\__,_|\\___||___/    |_____/ \\___|_|  |_| .__/ \\__|\n" +
         "                                                     | |        \n" +
         "                                                     |_|        \n");
-    let contractAddress = await getInput("Enter contract address: ");
-    const contract = new ethers.Contract(contractAddress, ABI, wallet);
-    let enodeHigh, enodeLow;
-    let choice = 0;
-    while (choice != 1 || choice != 2 || choice != 3 || choice != 4){
-        console.log("1 - ADD ENODE\n2 - REMOVE ENODE\n3 - VIEW ENODE\n4 - EXIT");
-        choice = await getInput('Enter your choice: ');
-        if (choice == 1){
-            enodeHigh= await getInput('Enter enodeHigh: ');
-            enodeLow = await getInput('Enter enodeLow: ');
-            let nodeType = await getInput('Enter nodeType: ');
-            let name = await getInput('Enter name: ');
-            let organization = await getInput('Enter organization: ');
-            let result = contract.addEnode(enodeHigh, enodeLow,nodeType,'0x39713879796b', name, organization);
-            //esse 0x39713879796b é um placeholder
-            break;
-        } if (choice == 2){
-            enodeHigh = await getInput('Enter enodeHigh: ');
-            enodeLow = await getInput('Enter enodeLow: ');
-            let result = contract.removeEnode(enodeHigh, enodeLow);
-            break;
-        } if (choice == 3){
-            let index = await getInput("Enter enode index: ");
-            let result = await contract.getByIndex(index);
-            console.log(result);
-            break;
-        } if (choice == 4){
-            console.log("Exiting nodes script.")
-            break;
+    const keyFilePath = key.path;
+    let private_key;
+    fs.readFile(keyFilePath, 'utf8', async (err, keyContent) => {
+        if (err) {
+            console.error(`There was an error reading the private key archive: ${err}`);
+            return;
         }
 
-        else {
-            console.log("Invalid command.");
+        private_key = keyContent;
+
+        let ip_address = process.argv[2];
+        let contractAddress = process.argv[3];
+        let choice = process.argv[4];
+        let enodeHigh = process.argv[5];
+        let enodeLow = process.argv[6];
+        let nodeType = process.argv[7];
+        let name = process.argv[8];
+        let organization = process.argv[9];
+        let result;
+
+        const provider = new ethers.providers.JsonRpcProvider(ip_address);
+        try {
+            const network = await provider.getNetwork();
+            console.log(`Connected to network: ${network.name}`);
+            const wallet = new ethers.Wallet(private_key, provider);
+            const contract = new ethers.Contract(contractAddress, ABI, wallet);
+            switch (choice){
+                case '1':
+                    result = contract.addEnode(enodeHigh, enodeLow,nodeType,'0x39713879796b', name, organization);
+                    break;
+                case '2':
+                    result = contract.removeEnode(enodeHigh, enodeLow);
+                    break;
+                case '3':
+                    let sizeDecimal = ethers.BigNumber.from(await contract.getSize()).toNumber()
+                    for (let i = 0; i < sizeDecimal; i++){
+                        result = await contract.getByIndex(i);
+                        console.log(result);
+                    }
+                    break;
+                default:
+                    console.log("Command not found.");
+                    break;
+            }
+        }catch (error) {
+            console.error("Sorry, there was an error:", error.reason +". Please try again.");
         }
-    }
+
+    });
 
 }
 
-module.exports = NodesMain;
+main();
