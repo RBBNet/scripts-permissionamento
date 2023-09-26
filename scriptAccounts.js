@@ -1,12 +1,10 @@
 const path = require('path');
+const fs = require('fs');
 const ethers = require('ethers');
 const AccountsJSON = require(path.join(__dirname, 'src/chain/abis/AccountRules.json'));
-const readline = require("readline");
-const getInput = require(path.join(__dirname, 'utils.js'));
+const key = require(path.join(__dirname, 'key.json'));
 const ABI = AccountsJSON.abi;
-
-
-async function AccountsMain(wallet){
+async function main(){
     console.log("\n" +
         "                                    _             _____           _       _   \n" +
         "     /\\                            | |           / ____|         (_)     | |  \n" +
@@ -16,30 +14,58 @@ async function AccountsMain(wallet){
         " /_/    \\_\\___\\___\\___/ \\__,_|_| |_|\\__|___/    |_____/ \\___|_|  |_| .__/ \\__|\n" +
         "                                                                   | |        \n" +
         "                                                                   |_|        \n");
-    let contractAddress = await getInput("Enter contract address: ");
-    const contract = new ethers.Contract(contractAddress, ABI, wallet);
-    let choice = 0;
-    let address;
-    while (choice != 1 || choice != 2 || choice != 3 || choice != 4){
-        console.log("1 - ADD ACCOUNT\n2 - REMOVE ACCOUNT\n3- GET ACCOUNTS LIST\n4 - EXIT");
-        choice = await getInput('Enter your choice: ');
-        if (choice == 1){
-            address = await getInput('Enter the new account address: ');
-            let result = await contract.addAccount(address);
-            break;
-        } if (choice == 2){
-            address = await getInput('Enter the account address to be removed: ');
-            let result = await contract.removeAccount(address);
-            break;
-        } if (choice == 3){
-            const accounts = await contract.getAccounts();
-            console.log(accounts);
-            break;
-        } if (choice == 4){
-            console.log("Exiting accounts script.")
-            break;
+    const keyFilePath = key.path;
+    let private_key;
+    fs.readFile(keyFilePath, 'utf8', async (err, keyContent) => {
+        if (err) {
+            console.error(`There was an error reading the private key archive: ${err}`);
+            return;
         }
-    }
+
+        private_key = keyContent;
+
+        let ip_address = process.argv[2];
+        let contractAddress = process.argv[3];
+        let choice = process.argv[4];
+        let address = process.argv[5];
+        let result;
+
+        const provider = new ethers.providers.JsonRpcProvider(ip_address);
+        try {
+            const network = await provider.getNetwork();
+            console.log(`Connected to network: ${network.name}`);
+            const wallet = new ethers.Wallet(private_key, provider);
+            const contract = new ethers.Contract(contractAddress, ABI, wallet);
+            let accounts;
+            switch (choice){
+                case '1':
+                    result = await contract.addAccount(address);
+                    break;
+                case '2':
+                    result = await contract.removeAccount(address);
+                    break;
+                case '3':
+                    accounts = await contract.getAccounts();
+                    console.log(accounts);
+                    break;
+                default:
+                    console.log("Command not found.");
+                    break;
+            }
+        }catch (error) {
+            console.error("Sorry, there was an error:", error.reason +". Please try again.");
+        }
+
+    });
+
 }
 
-module.exports = AccountsMain;
+
+
+main();
+
+
+
+
+
+
