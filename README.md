@@ -6,7 +6,9 @@ Diferentemente da versão interativa, esses scripts não têm um "main" onde é 
 * Node.js instalado (preferencialmente vindo do dev-env)
 * Um arquivo key.json com o caminho para a chave privada (que o usuário deverá criar no mesmo diretório dos scripts)
 
-## 2 - Como rodar
+## 2 - Como executar
+Primeiro, é necessário ir ao cmd do Windows/Linux e rodar `yarn install` para trazer as ABIs. Depois disso, é suposto que os scripts estejam prontos para serem executados.
+
 Os diferentes scripts esperam diferentes parâmetros, mas seguem uma regra geral para serem chamados: 
 
 `node script[Nodes/Admins/Accounts].js [http://ip-da-rede:porta] [endereço-do-contrato] [parâmetro-1] [outros-parâmetros]`
