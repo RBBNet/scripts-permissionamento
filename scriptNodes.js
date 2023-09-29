@@ -42,10 +42,10 @@ async function main() {
             const contract = new ethers.Contract(contractAddress, ABI, wallet);
             switch (choice){
                 case '1':
-                    result = contract.addEnode(enodeHigh, enodeLow,nodeType,'0x39713879796b', name, organization);
+                    result = await contract.addEnode(enodeHigh, enodeLow,nodeType,'0x39713879796b', name, organization);
                     break;
                 case '2':
-                    result = contract.removeEnode(enodeHigh, enodeLow);
+                    result = await contract.removeEnode(enodeHigh, enodeLow);
                     break;
                 case '3':
                     let sizeDecimal = ethers.BigNumber.from(await contract.getSize()).toNumber()
