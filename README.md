@@ -5,9 +5,10 @@ Diferentemente da versão interativa, esses scripts não têm um "main" onde é 
 ## 1 - O que é necessário
 * Node.js instalado (preferencialmente vindo do dev-env)
 * Um arquivo key.json com o caminho para a chave privada (que o usuário deverá criar no mesmo diretório dos scripts). Esse arquivo key deve conter APENAS o caminho no formato json, ou seja, entre aspas duplas.
-É suposto que a chave privada fique no arquivo apontado. Exemplo: {
+É suposto que a chave privada fique no arquivo apontado. Exemplo:
+``{
   "path": "C:\\Users\\etc\\chavePrivada.txt"
-}
+}``
 
 ## 2 - Como executar
 Primeiro, é necessário ir ao cmd do Windows/Linux e rodar `yarn install` para trazer as ABIs. Depois disso, é suposto que os scripts estejam prontos para serem executados.
