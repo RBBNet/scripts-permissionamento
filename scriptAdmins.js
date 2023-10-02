@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const ethers = require('ethers');
 const AdminJSON = require(path.join(__dirname, 'src/chain/abis/Admin.json'));
-const key = require(path.join(__dirname, 'key.json'));
+const key = require(path.join(__dirname, 'keypath.json'));
 const ABI = AdminJSON.abi;
 async function main() {
     console.log("\n" +
