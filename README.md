@@ -2,6 +2,9 @@
 
 Diferentemente da versão interativa, esses scripts não têm um "main" onde é possível escolher os parâmetros. Portanto, esse readme servirá como guia para eventuais dúvidas.
 
+## 0 - Versionamento
+Mais informações [aqui](https://github.com/RBBNet/rbb/blob/master/Versionamento.md). O versionamento semântico é uma boa prática que adotamos, seguindo o guia disponível em https://semver.org/. O Permissionamento já segue essa prática.
+
 ## 1 - O que é necessário
 * Node.js instalado (preferencialmente vindo do dev-env)
 * Um arquivo keypath.json com o caminho para a chave privada (que o usuário deverá criar no mesmo diretório dos scripts). Esse arquivo keypath deve conter APENAS o caminho no formato json, ou seja, entre aspas duplas.
