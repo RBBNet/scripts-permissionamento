@@ -11,7 +11,7 @@ No caso dos scripts de permissionamento, a API pública são os próprios script
 
 ## 1 - O que é necessário
 * Node.js instalado (preferencialmente vindo do dev-env)
-* Um arquivo keypath.json com o caminho para a chave privada (que o usuário deverá criar no mesmo diretório dos scripts). Esse arquivo keypath deve conter APENAS o caminho no formato json, ou seja, entre aspas duplas.
+* Um arquivo keypath.json (na mesma pasta do script) com o caminho para a chave privada. Esse arquivo keypath deve conter APENAS o caminho no formato json, ou seja, entre aspas duplas.
 É suposto que a chave privada fique no arquivo apontado. Exemplo:
 ``{
   "path": "C:\\Users\\etc\\chavePrivada.txt"
