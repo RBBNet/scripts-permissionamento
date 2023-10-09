@@ -1,4 +1,4 @@
-# Scripts de permissionamento para o Rundeck
+# Scripts de permissionamento
 
 Diferentemente da versão interativa, esses scripts não têm um "main" onde é possível escolher os parâmetros. Portanto, esse readme servirá como guia para eventuais dúvidas.
 
@@ -10,7 +10,7 @@ No caso dos scripts de permissionamento, a API pública são os próprios script
 ⚠️ **IMPORTANTE**: ler sessão [_Dinâmica_](https://github.com/RBBNet/rbb/blob/master/Versionamento.md#din%C3%A2mica), que dita o comportamento para a implementação de novas funcionalidades.
 
 ## 1 - O que é necessário
-* Node.js instalado (preferencialmente vindo do dev-env)
+* Node.js instalado.
 * Um arquivo keypath.json (na mesma pasta do script) com o caminho para a chave privada. Esse arquivo keypath deve conter APENAS o caminho no formato json, ou seja, entre aspas duplas.
 É suposto que a chave privada fique no arquivo apontado. Exemplo:
 ``{
