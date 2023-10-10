@@ -27,7 +27,7 @@ async function NodesMain(wallet) {
             let nodeType = await getInput('Enter nodeType: ');
             let name = await getInput('Enter name: ');
             let organization = await getInput('Enter organization: ');
-            let result = contract.addEnode(enodeHigh, enodeLow,nodeType,'0x39713879796b', name, organization);
+            let result = contract.addEnode(enodeHigh, enodeLow,nodeType,'0x000000000000', name, organization);
             //esse 0x39713879796b é um placeholder
             break;
         } if (choice == 2){
