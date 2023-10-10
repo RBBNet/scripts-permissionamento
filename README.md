@@ -52,3 +52,8 @@ Já adicionar e remover espera outros parâmetros. Exemplo:
 `node scriptNodes.js http://IP:PORTA ENDEREÇO-CONTRATO 1 ENODE-HIGH ENODE-LOW NODE-TYPE NAME ORGANIZATION `
 
 `node scriptAccounts.js http://IP:PORTA ENDEREÇO-CONTRATO 2 ENDEREÇO-CONTA`
+
+## 3 - Erros comuns
+
+_"invalid hexlify value"_: cheque a sua chave privada. Ela deve ter *exatamente* 64 caracteres.
+
