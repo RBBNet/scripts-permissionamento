@@ -40,9 +40,11 @@ async function main() {
             switch (choice){
                 case '1':
                     result = await contract.addAdmin(address);
+                    console.log("Sucess!");
                     break;
                 case '2':
                     result = await contract.removeAdmin(address);
+                    console.log("Sucess!");
                     break;
                 case '3':
                     const admins = await contract.getAdmins();

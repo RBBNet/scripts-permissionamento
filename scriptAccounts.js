@@ -40,9 +40,11 @@ async function main(){
             switch (choice){
                 case '1':
                     result = await contract.addAccount(address);
+                    console.log("Sucess!");
                     break;
                 case '2':
                     result = await contract.removeAccount(address);
+                    console.log("Sucess!");
                     break;
                 case '3':
                     accounts = await contract.getAccounts();

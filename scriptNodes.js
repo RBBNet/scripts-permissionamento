@@ -43,9 +43,11 @@ async function main() {
             switch (choice){
                 case '1':
                     result = await contract.addEnode(enodeHigh, enodeLow,nodeType,'0x000000000000', name, organization);
+                    console.log("Sucess!");
                     break;
                 case '2':
                     result = await contract.removeEnode(enodeHigh, enodeLow);
+                    console.log("Sucess!");
                     break;
                 case '3':
                     let sizeDecimal = ethers.BigNumber.from(await contract.getSize()).toNumber()
