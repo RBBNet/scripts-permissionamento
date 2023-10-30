@@ -2,8 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const ethers = require('ethers');
 const NodeRulesJSON = require(path.join(__dirname, 'src/chain/abis/NodeRules.json'));
+const NodeIngressJSON = require(path.join(__dirname, 'src/chain/abis/NodeIngress.json'));
 const key = require(path.join(__dirname, 'keypath.json'));
 const ABI = NodeRulesJSON.abi;
+const NodeABI = NodeIngressJSON.abi;
+let ingressAddress = "0x0000000000000000000000000000000000009999"
 async function main() {
     console.log("\n" +
         "  _   _           _                 _____           _       _   \n" +
@@ -25,13 +28,12 @@ async function main() {
         private_key = keyContent;
 
         let ip_address = process.argv[2];
-        let contractAddress = process.argv[3];
-        let choice = process.argv[4];
-        let enodeHigh = process.argv[5];
-        let enodeLow = process.argv[6];
-        let nodeType = process.argv[7];
-        let name = process.argv[8];
-        let organization = process.argv[9];
+        let choice = process.argv[3];
+        let enodeHigh = process.argv[4];
+        let enodeLow = process.argv[5];
+        let nodeType = process.argv[6];
+        let name = process.argv[7];
+        let organization = process.argv[8];
         let result;
 
         const provider = new ethers.providers.JsonRpcProvider(ip_address);
@@ -39,6 +41,9 @@ async function main() {
             const network = await provider.getNetwork();
             console.log(`Connected to network: ${network.name}`);
             const wallet = new ethers.Wallet(private_key, provider);
+            const NodeIngress = new ethers.Contract(ingressAddress, NodeABI, wallet);
+            let rules = await NodeIngress.RULES_CONTRACT();
+            let contractAddress = await NodeIngress.getContractAddress(rules);
             const contract = new ethers.Contract(contractAddress, ABI, wallet);
             switch (choice){
                 case '1':

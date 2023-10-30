@@ -4,6 +4,10 @@ const ethers = require('ethers');
 const AdminJSON = require(path.join(__dirname, 'src/chain/abis/Admin.json'));
 const key = require(path.join(__dirname, 'keypath.json'));
 const ABI = AdminJSON.abi;
+const NodeIngressJSON = require(path.join(__dirname, 'src/chain/abis/NodeIngress.json'));
+const NodeABI = NodeIngressJSON.abi;
+let ingressAddress = "0x0000000000000000000000000000000000009999";
+//pegar o admin do node
 async function main() {
     console.log("\n" +
         "              _           _             _____           _       _   \n" +
@@ -36,6 +40,10 @@ async function main() {
             const network = await provider.getNetwork();
             console.log(`Connected to network: ${network.name}`);
             const wallet = new ethers.Wallet(private_key, provider);
+            const NodeIngress = new ethers.Contract(ingressAddress, NodeABI, wallet);
+            let admin = await NodeIngress.ADMIN_CONTRACT();
+            let contractAddress = await NodeIngress.getContractAddress(admin);
+
             const contract = new ethers.Contract(contractAddress, ABI, wallet);
             switch (choice){
                 case '1':
