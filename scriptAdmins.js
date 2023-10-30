@@ -30,9 +30,8 @@ async function main() {
         private_key = keyContent;
 
         let ip_address = process.argv[2];
-        let contractAddress = process.argv[3];
-        let choice = process.argv[4];
-        let address = process.argv[5];
+        let choice = process.argv[3];
+        let address = process.argv[4];
         let result;
 
         const provider = new ethers.providers.JsonRpcProvider(ip_address);
