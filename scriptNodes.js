@@ -41,6 +41,7 @@ async function main() {
             const network = await provider.getNetwork();
             console.log(`Connected to network: ${network.name}`);
             const wallet = new ethers.Wallet(private_key, provider);
+            console.log(wallet);
             const NodeIngress = new ethers.Contract(ingressAddress, NodeABI, wallet);
             let rules = await NodeIngress.RULES_CONTRACT();
             let contractAddress = await NodeIngress.getContractAddress(rules);
