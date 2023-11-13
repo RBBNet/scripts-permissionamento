@@ -9,5 +9,5 @@ services:
         HTTPS_PROXY:
         NO_PROXY:
     volumes:
-    - /tmp/lioli/privkey:/scripts/privkey
+    - /caminho/para/private/key:/scripts/privkey
 
