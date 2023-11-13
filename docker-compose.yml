@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app:
+    image: registry.bndes.net:5000/bndes/rbb-permissionamento:0.0.1-SNAPSHOT
+    build:
+      context: .
+      args:
+        HTTP_PROXY:
+        HTTPS_PROXY:
+        NO_PROXY:
+    volumes:
+    - /tmp/lioli/privkey:/scripts/privkey
+
