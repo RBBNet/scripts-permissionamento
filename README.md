@@ -22,7 +22,7 @@ Primeiro, é necessário ir ao cmd do Windows/Linux e rodar `yarn install` para 
 
 Os diferentes scripts esperam diferentes parâmetros, mas seguem uma regra geral para serem chamados: 
 
-`node script[Nodes/Admins/Accounts].js [http://ip-da-rede:porta] [endereço-do-contrato] [parâmetro-1] [outros-parâmetros]`
+`node script[Nodes/Admins/Accounts].js [http://ip-da-rede:porta] [parâmetro-1] [outros-parâmetros]`
 
 * Possibilidades para o parâmetro 1:
   * 1 - adicionar
@@ -45,15 +45,15 @@ Os diferentes scripts esperam diferentes parâmetros, mas seguem uma regra geral
 
 De forma que "listar" não espera mais nenhum outro parâmetro além do primeiro. Exemplo:
 
-` node scriptNodes.js http://IP:PORTA ENDEREÇO-CONTRATO 3 `
+` node scriptNodes.js http://IP:PORTA 3 `
 
 Já adicionar e remover espera outros parâmetros. Exemplo:
 
 `node scriptNodes.js http://IP:PORTA ENDEREÇO-CONTRATO 1 ENODE-HIGH ENODE-LOW NODE-TYPE NAME ORGANIZATION `
 
-`node scriptAccounts.js http://IP:PORTA ENDEREÇO-CONTRATO 2 ENDEREÇO-CONTA`
+`node scriptAccounts.js http://IP:PORTA 2 ENDEREÇO-CONTA`
 
 ## 3 - Erros comuns
 
 _"invalid hexlify value"_: cheque a sua chave privada. Ela deve ter *exatamente* 64 caracteres.
-
+_"Command not found"_: provavelmente ele está lendo um parâmetro na ordem errada. Verifique se você passou o comando `node script[Nodes/Admins/Accounts].js http[s]://ip-da-rede:porta [1/2/3]`.
