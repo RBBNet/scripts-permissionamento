@@ -49,11 +49,12 @@ De forma que "listar" não espera mais nenhum outro parâmetro além do primeiro
 
 Já adicionar e remover espera outros parâmetros. Exemplo:
 
-`node scriptNodes.js http://IP:PORTA ENDEREÇO-CONTRATO 1 ENODE-HIGH ENODE-LOW NODE-TYPE NAME ORGANIZATION `
+`node scriptNodes.js http://IP:PORTA 1 ENODE-HIGH ENODE-LOW NODE-TYPE NAME ORGANIZATION `
 
 `node scriptAccounts.js http://IP:PORTA 2 ENDEREÇO-CONTA`
 
 ## 3 - Erros comuns
 
-_"invalid hexlify value"_: cheque a sua chave privada. Ela deve ter *exatamente* 64 caracteres.
+_"invalid hexlify value"_: cheque a sua chave privada. Ela deve ter *exatamente* 64 caracteres. 
+
 _"Command not found"_: provavelmente ele está lendo um parâmetro na ordem errada. Verifique se você passou o comando `node script[Nodes/Admins/Accounts].js http[s]://ip-da-rede:porta [1/2/3]`.
