@@ -41,20 +41,53 @@ async function main() {
             const network = await provider.getNetwork();
             console.log(`Connected to network: ${network.name}`);
             const wallet = new ethers.Wallet(private_key, provider);
-            console.log(wallet);
             const NodeIngress = new ethers.Contract(ingressAddress, NodeABI, wallet);
             let rules = await NodeIngress.RULES_CONTRACT();
             let contractAddress = await NodeIngress.getContractAddress(rules);
             const contract = new ethers.Contract(contractAddress, ABI, wallet);
+
+            async function handleEvent(contract, eventName, action, ...args) {
+
+                const result = await action();
+
+                const transferEvent = await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error(`Timeout waiting for event: ${eventName}`));
+                    }, 60000); // 60 seconds timeout
+
+                    contract.once(eventName, (...eventArgs) => {
+                        clearTimeout(timeout);
+                        resolve(eventArgs.length > 1 ? eventArgs : eventArgs[0]);
+                    });
+                });
+
+                if (transferEvent[0]) {
+                    console.log("Success!");
+                } else {
+                    console.log(`Sorry, there was an error and the ${eventName} event did not happen as expected.`);
+                }
+
+            }
+
+
             switch (choice){
                 case '1':
-                    result = await contract.addEnode(enodeHigh, enodeLow,nodeType,'0x000000000000', name, organization);
-                    console.log("Sucess!");
+                    await handleEvent(
+                        contract,
+                        "NodeAdded",
+                        () => contract.addEnode(enodeHigh, enodeLow,nodeType,'0x000000000000', name, organization)
+                    );
                     break;
+
                 case '2':
-                    result = await contract.removeEnode(enodeHigh, enodeLow);
-                    console.log("Sucess!");
+                    await handleEvent(
+                        contract,
+                        "NodeRemoved",
+                        () => contract.removeEnode(enodeHigh, enodeLow)
+                    );
+
                     break;
+
                 case '3':
                     let sizeDecimal = ethers.BigNumber.from(await contract.getSize()).toNumber()
                     for (let i = 0; i < sizeDecimal; i++){
@@ -63,14 +96,18 @@ async function main() {
                     }
                     break;
                 default:
-                    console.log("Command not found.");
+                    console.log("Command not found: " + choice);
                     break;
             }
         }catch (error) {
-            console.error("Sorry, there was an error:", error.reason +". Please try again.");
+            console.log("Sorry, there was an error: " + error.reason);
+            if (error.reason === "invalid hexlify value"){
+                console.log("Check your private key or the enodeHigh/Low passed as parameters. They might be wrong.");
+            }
         }
 
     });
+
 
 }
 

@@ -42,27 +42,64 @@ async function main(){
             let contractAddress = await accountIngress.getContractAddress(rules);
             const contract = new ethers.Contract(contractAddress, ABI, wallet);
             let accounts;
-            switch (choice){
+            async function handleEvent(contract, eventName, action, ...args) {
+
+                const result = await action();
+
+                const transferEvent = await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error(`Timeout waiting for event: ${eventName}`));
+                        }, 60000); // 60 seconds timeout
+
+                        contract.once(eventName, (...eventArgs) => {
+                            clearTimeout(timeout);
+                            resolve(eventArgs.length > 1 ? eventArgs : eventArgs[0]);
+                        });
+                    });
+
+                    if (transferEvent[0]) {
+                        console.log("Success!");
+                    } else {
+                        console.log(`Sorry, there was an error and the ${eventName} event did not happen as expected.`);
+                    }
+
+            }
+
+
+            switch (choice) {
                 case '1':
-                    result = await contract.addAccount(address);
-                    console.log("Sucess!");
+                    await handleEvent(
+                        contract,
+                        "AccountAdded",
+                        () => contract.addAccount(address)
+                    );
                     break;
                 case '2':
-                    result = await contract.removeAccount(address);
-                    console.log("Sucess!");
+                    await handleEvent(
+                        contract,
+                        "AccountRemoved",
+                        () => contract.removeAccount(address)
+                    );
                     break;
                 case '3':
                     accounts = await contract.getAccounts();
                     console.log(accounts);
                     break;
                 default:
-                    console.log("Command not found.");
+                    console.log("Command not found: " + choice);
                     break;
             }
-        }catch (error) {
-            console.error("Sorry, there was an error:", error.reason +". Please try again.");
-        }
 
+        }catch (error) {
+            console.log("Sorry, there was an error: " + error.reason + ".");
+            if (error.reason === "invalid hexlify value"){
+                console.log("Check your private key or accounts passed as parameters. They must have exactly 64 characters.");
+            } else if (error.reason === "could not detect network"){
+                console.log("Check the network address passed as a parameter.");
+
+            }
+
+        }
     });
 
 }

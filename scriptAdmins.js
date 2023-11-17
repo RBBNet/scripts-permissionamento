@@ -44,21 +44,51 @@ async function main() {
             let contractAddress = await NodeIngress.getContractAddress(admin);
 
             const contract = new ethers.Contract(contractAddress, ABI, wallet);
-            switch (choice){
+            let accounts;
+            async function handleEvent(contract, eventName, action, ...args) {
+
+                const result = await action();
+
+                const transferEvent = await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error(`Timeout waiting for event: ${eventName}`));
+                    }, 60000); // 60 seconds timeout
+
+                    contract.once(eventName, (...eventArgs) => {
+                        clearTimeout(timeout);
+                        resolve(eventArgs.length > 1 ? eventArgs : eventArgs[0]);
+                    });
+                });
+
+                if (transferEvent[0]) {
+                    console.log("Success!");
+                } else {
+                    console.log(`Sorry, there was an error and the ${eventName} event did not happen as expected.`);
+                }
+
+            }
+
+            switch (choice) {
                 case '1':
-                    result = await contract.addAdmin(address);
-                    console.log("Sucess!");
+                    await handleEvent(
+                        contract,
+                        "AdminAdded",
+                        () => contract.addAdmin(address)
+                    );
                     break;
                 case '2':
-                    result = await contract.removeAdmin(address);
-                    console.log("Sucess!");
+                    await handleEvent(
+                        contract,
+                        "AdminRemoved",
+                        () => contract.removeAdmin(address)
+                    );
                     break;
                 case '3':
                     const admins = await contract.getAdmins();
                     console.log(admins);
                     break;
                 default:
-                    console.log("Command not found.");
+                    console.log("Command not found: " + choice);
                     break;
             }
         }catch (error) {
