@@ -1,60 +1,28 @@
-# Scripts de permissionamento
+# Scripts para execução de *smart contracts* de Permissionamento da RBB - Segunda Geração (gen02)
 
-Diferentemente da versão interativa, esses scripts não têm um "main" onde é possível escolher os parâmetros. Portanto, esse readme servirá como guia para eventuais dúvidas.
+Este repositório contém o código utilizado para realização de chamadas aos *smart contracts* de [permissionamento](https://github.com/RBBNet/Permissionamento) da RBB, contemplando especificamente a segunda geração do permissionamento (gen02).
 
-## 0 - Versionamento
-Mais informações [aqui](https://github.com/RBBNet/rbb/blob/master/Versionamento.md). O versionamento semântico é uma boa prática que adotamos, seguindo o guia disponível em https://semver.org/. O Permissionamento já segue essa prática.
+Para obter os scripts que realizam chamadas à primeira geração do permissionamento (gen01), verifique a release [v.1.0.1+2023-10-23](https://github.com/RBBNet/scripts-permissionamento/releases/tag/1.0.1).
 
-No caso dos scripts de permissionamento, a API pública são os próprios scripts.
 
-⚠️ **IMPORTANTE**: ler sessão [_Dinâmica_](https://github.com/RBBNet/rbb/blob/master/Versionamento.md#din%C3%A2mica), que dita o comportamento para a implementação de novas funcionalidades.
+## Dependências
 
-## 1 - O que é necessário
-* Node.js instalado.
-* Um arquivo keypath.json (na mesma pasta do script) com o caminho para a chave privada. Esse arquivo keypath deve conter APENAS o caminho no formato json, ou seja, entre aspas duplas.
-É suposto que a chave privada fique no arquivo apontado. Exemplo:
-``{
-  "path": "C:\\Users\\etc\\chavePrivada.txt"
-}``
+Para baixar as dependências do projeto:
 
-## 2 - Como executar
-Primeiro, é necessário ir ao cmd do Windows/Linux e rodar `yarn install` para trazer as ABIs. Depois disso, é suposto que os scripts estejam prontos para serem executados.
+```shell
+npm install
+```
 
-Os diferentes scripts esperam diferentes parâmetros, mas seguem uma regra geral para serem chamados: 
+## Configuração
 
-`node script[Nodes/Admins/Accounts].js [http://ip-da-rede:porta] [parâmetro-1] [outros-parâmetros]`
+Os scripts dependem de parâmetros de configuração para sua execução. Alguns parâmetros devem ser configurados através de variáveis de ambiente ou através de arquivo `.env`. A saber:
+- `CONFIG_PARAMETERS`: Caminho do arquivo com os parâmetros de configuração.
+  - Para o caso de blockchain local, o arquivo [`deploy/parameters-local.json`](deploy/parameters-local.json) já foi preparado.
+- `PRIVATE_KEY`: Chave privada da conta a ser usada para envio de transações.
 
-* Possibilidades para o parâmetro 1:
-  * 1 - adicionar
-  * 2 - remover
-  * 3 - listar
-
-* Outros parâmetros:
-  * Para o scriptNodes.js (nessa ordem):
-    * 1 - enodeHigh  - adicionar, remover
-    * 2 - enodeLow - adicionar, remover
-    * 3 - nodeType - adicionar
-    * 4 - name - adicionar
-    * 5 - organization - adicionar
-
-  * Para o scriptAccounts.js (nessa ordem):
-    * 1 - address - adicionar, remover
-
-  * Para o scriptAdmins.js (nessa ordem):
-    * 1 - address - adicionar, remover
-
-De forma que "listar" não espera mais nenhum outro parâmetro além do primeiro. Exemplo:
-
-` node scriptNodes.js http://IP:PORTA 3 `
-
-Já adicionar e remover espera outros parâmetros. Exemplo:
-
-`node scriptNodes.js http://IP:PORTA 1 ENODE-HIGH ENODE-LOW NODE-TYPE NAME ORGANIZATION `
-
-`node scriptAccounts.js http://IP:PORTA 2 ENDEREÇO-CONTA`
-
-## 3 - Erros comuns
-
-_"invalid hexlify value"_: cheque a sua chave privada. Ela deve ter *exatamente* 64 caracteres. 
-
-_"Command not found"_: provavelmente ele está lendo um parâmetro na ordem errada. Verifique se você passou o comando `node script[Nodes/Admins/Accounts].js http[s]://ip-da-rede:porta [1/2/3]`.
+Os demais parâmetros de configuração devem ser ajustados no arquivo JSON de parâmetros, conforme especificado na variável `CONFIG_PARAMETERS`. A saber:
+- `jsonRpcUrl`: URL para interface JSON RPC do nó a ser usado para acesso à blockchain.
+- `organizationAddress`: Endereço do *smart contract* de `OrganizationImpl`.
+- `accountRulesV2Address`: Endereço do *smart contract* de `AccountRulesV2Impl`.
+- `governanceAddress`: Endereço do *smart contract* de `Governance`.
+- `nodeRulesV2Address`: Endereço do *smart contract* de `NodeRulesV2Impl`.

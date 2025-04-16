@@ -1,14 +1,22 @@
 {
-  "name": "scripts",
-  "abirelease": "v1.0.1+ABIs",
-  "version": "1.0.0",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "ethers": "5.4.6",
-    "adm-zip": "^0.4.13"
+  "name": "rbb-scripts-permissionamento",
+  "version": "2.0.0",
+  "description": "Scripts para execução de smart contracts de permissionamento da RBB",
+  "scripts": {
   },
-  "scripts":{
-    "getabi": "yarn --silent postinstall",
-    "postinstall": "((w>/dev/null && curl -#LO https://github.com/RBBNet/Permissionamento/releases/download/$npm_package_abirelease/src.zip) || (ver && curl -#LO https://github.com/RBBNet/Permissionamento/releases/download/%npm_package_abirelease%/src.zip)) && node -e \"const fs = require('fs'); const AdmZip = require('adm-zip'); const outputPath = './src.zip'; console.log('Iniciando a descompactação do arquivo.'); const zip = new AdmZip(outputPath); zip.extractAllTo('./', true); console.log('Arquivo descompactado com sucesso.'); fs.unlinkSync(outputPath); console.log('Arquivo ZIP excluído com sucesso.'); console.log('\\nDownload das ABIs concluído.');\""
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RBBNet/scripts-permissionamento"
+  },
+  "keywords": [
+    "permissioning",
+    "RBB"
+  ],
+  "author": "RBB",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ethers": "^6.13.5"
+  },
+  "homepage": "https://github.com/RBBNet/scripts-permissionamento#readme"
 }
