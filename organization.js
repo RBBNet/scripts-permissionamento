@@ -24,9 +24,9 @@ const organization = {
     'getOrganizations': async function (contract, func, args) {
         verifyArgsLength(0, func, args, syntax[func]);
         const orgs = await contract.getOrganizations();
-        console.log(`\Organizações [Id, CNPJ, Nome, Tipo, Pode votar]:`);
+        console.log(`\nId;CNPJ;Nome;Tipo;Pode votar`);
         for(org of orgs) {
-            console.log(` ${org[0]}, ${org[1]}, ${org[2]}, ${getOrgTypeName(org[3])}, ${org[4]}`);
+            console.log(`${org[0]};${org[1]};${org[2]};${getOrgTypeName(org[3])};${org[4]}`);
         }
     }
 };

@@ -91,9 +91,9 @@ const accountRulesV2 = {
         const pageNumber = args[0];
         const pageSize = args[1];
         const accounts = await contract.getAccounts(pageNumber, pageSize);
-        console.log(`\nContas [Account, Org, Role, Data hash, Active]:`);
+        console.log(`\nAccount;Org;Role;Data hash;Active`);
         for(acc of accounts) {
-            console.log(` ${acc[1]}, ${acc[0]}, ${getRole(acc[2])}, ${acc[3]}, ${acc[4]}`);
+            console.log(`${acc[1]};${acc[0]};${getRole(acc[2])};${acc[3]};${acc[4]}`);
         }
     },
     'getNumberOfAccountsByOrg': async function (contract, func, args) {
@@ -108,9 +108,9 @@ const accountRulesV2 = {
         const pageNumber = args[1];
         const pageSize = args[2];
         const accounts = await contract.getAccountsByOrg(orgId, pageNumber, pageSize);
-        console.log(`\nContas da organização ${orgId} [Account, Org, Role, Data hash, Active]:`);
+        console.log(`\nAccount;Org;Role;Data hash;Active`);
         for(acc of accounts) {
-            console.log(` ${acc[1]}, ${acc[0]}, ${getRole(acc[2])}, ${acc[3]}, ${acc[4]}`);
+            console.log(`${acc[1]};${acc[0]};${getRole(acc[2])};${acc[3]};${acc[4]}`);
         }
     },
     'getAccountTargetAccess': async function (contract, func, args) {
@@ -134,9 +134,9 @@ const accountRulesV2 = {
         const pageNumber = args[0];
         const pageSize = args[1];
         const accounts = await contract.getRestrictedAccounts(pageNumber, pageSize);
-        console.log(`\nContas configuradas com restrição de acesso:`);
+        console.log(`\nAccount`);
         for(acc of accounts) {
-            console.log(` ${acc}`);
+            console.log(`${acc}`);
         }
     }
     //function getSmartContractSenderAccess(address smartContract) external view returns (bool restricted, address[] memory);

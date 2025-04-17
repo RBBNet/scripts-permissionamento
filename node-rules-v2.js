@@ -77,9 +77,9 @@ const nodeRulesV2 = {
         const pageNumber = args[0];
         const pageSize = args[1];
         const nodes = await contract.getNodes(pageNumber, pageSize);
-        console.log(`\nNós [EnodeHigh, EnodeLow, Org, Type, Name, Active]:`);
+        console.log(`\nEnodeHigh;EnodeLow;Org;Type;Name;Active`);
         for(node of nodes) {
-            console.log(` ${node[0]} ${node[1]}, ${node[4]}, ${getNodeTypeName(node[2])}, ${node[3]}, ${node[5]}`);
+            console.log(`${node[0]};${node[1]};${node[4]};${getNodeTypeName(node[2])};${node[3]};${node[5]}`);
         }
     },
     'getNumberOfNodesByOrg': async function (contract, func, args) {
@@ -94,9 +94,9 @@ const nodeRulesV2 = {
         const pageNumber = args[1];
         const pageSize = args[2];
         const nodes = await contract.getNodesByOrg(orgId, pageNumber, pageSize);
-        console.log(`\nNós [EnodeHigh, EnodeLow, Org, Type, Name, Active]:`);
+        console.log(`\nEnodeHigh;EnodeLow;Org;Type;Name;Active`);
         for(node of nodes) {
-            console.log(` ${node[0]} ${node[1]}, ${node[4]}, ${getNodeTypeName(node[2])}, ${node[3]}, ${node[5]}`);
+            console.log(`${node[0]};${node[1]};${node[4]};${getNodeTypeName(node[2])};${node[3]};${node[5]}`);
         }
     }
 };
