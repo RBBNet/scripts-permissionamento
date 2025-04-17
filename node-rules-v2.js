@@ -65,7 +65,7 @@ const nodeRulesV2 = {
         const enodeHigh = args[0];
         const enodeLow = args[1];
         const nodeData = await contract.getNode(enodeHigh, enodeLow);
-        console.log(`\nNó ${nodeData[0]} ${nodeData[1]}: \n Org: ${nodeData[4]}\n Type: ${getNodeTypeName(nodeData[2])}\n Name: ${nodeData[3]}\n Active: ${nodeData[5]}`);
+        console.log(`\nNó ${nodeData[0]} ${nodeData[1]}:\n Org: ${nodeData[4]}\n Type: ${getNodeTypeName(nodeData[2])}\n Name: ${nodeData[3]}\n Active: ${nodeData[5]}`);
     },
     'getNumberOfNodes': async function (contract, func, args) {
         verifyArgsLength(0, func, args, syntax[func]);
