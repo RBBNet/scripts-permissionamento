@@ -16,7 +16,10 @@ const syntax = {
     'getAccountsByOrg': 'getAccountsByOrg <orgId> <pageNumber> <pageSize>',
     'getAccountTargetAccess': 'getAccountTargetAccess <account>',
     'getNumberOfRestrictedAccounts': 'getNumberOfRestrictedAccounts',
-    'getRestrictedAccounts': 'getRestrictedAccounts <pageNumber> <pageSize>'
+    'getRestrictedAccounts': 'getRestrictedAccounts <pageNumber> <pageSize>',
+    'getSmartContractSenderAccess': 'getSmartContractSenderAccess <smartContract>',
+    'getNumberOfRestrictedSmartContracts': 'getNumberOfRestrictedSmartContracts',
+    'getRestrictedSmartContracts': 'getRestrictedSmartContracts <pageNumber> <pageSize>'
 };
 
 const accountRulesV2 = {
@@ -131,10 +134,31 @@ const accountRulesV2 = {
         for(acc of accounts) {
             console.log(`${acc}`);
         }
+    },
+    'getSmartContractSenderAccess': async function (contract, func, args) {
+        verifyArgsLength(1, func, args, syntax[func]);
+        const smartContract = args[0];
+        const [restricted, senders] = await contract.getSmartContractSenderAccess(smartContract);
+        console.log(`\nSmart contract ${smartContract} com acesso restrito: ${restricted}`);
+        for(sender of senders) {
+            console.log(` ${sender}`);
+        }
+    },
+    'getNumberOfRestrictedSmartContracts': async function (contract, func, args) {
+        verifyArgsLength(0, func, args, syntax[func]);
+        const numSmartContracts = await contract.getNumberOfRestrictedSmartContracts();
+        console.log(`\nQuantidade de smart contracts com restrição de acesso configurada: ${numSmartContracts}`);
+    },
+    'getRestrictedSmartContracts': async function (contract, func, args) {
+        verifyArgsLength(2, func, args, syntax[func]);
+        const pageNumber = args[0];
+        const pageSize = args[1];
+        const contracts = await contract.getRestrictedSmartContracts(pageNumber, pageSize);
+        console.log(`\nSmart contracts`);
+        for(sc of contracts) {
+            console.log(`${sc}`);
+        }
     }
-    //function getSmartContractSenderAccess(address smartContract) external view returns (bool restricted, address[] memory);
-    //function getNumberOfRestrictedSmartContracts() external view returns (uint);
-    //function getRestrictedSmartContracts(uint pageNumber, uint pageSize) external view returns (address[] memory);
 };
 
 async function run() {
