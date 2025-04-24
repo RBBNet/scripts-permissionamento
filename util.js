@@ -161,12 +161,48 @@ function getFunctionArgs(scriptFileName) {
     const func = process.argv[2];
     let args;
     if(numArgs > 3) {
-        args = process.argv.slice(3, numArgs);
+        args = getArgs(process.argv.slice(3, numArgs));
     }
     else {
         args = [];
     }
     return [func, args];
+}
+
+function getArgs(processArgs) {
+    const args = [];
+    let loadingArray = false;
+    let tempArray;
+    for(pArg of processArgs) {
+        if(pArg.startsWith('[')) {
+            if(loadingArray) {
+                throw new Error(`Array aninhado não permitido: ${processArgs}`);
+            }
+            loadingArray = true;
+            tempArray = [];
+            pArg = pArg.substring(1, pArg.length);
+        }
+        if(pArg.endsWith(']')) {
+            if(!loadingArray) {
+                throw new Error(`Array demarcado incorretamente: ${processArgs}`);
+            }
+            if(pArg.length > 1) {
+                pArg = pArg.substring(0, pArg.length - 1);
+                tempArray.push(pArg);
+            }
+            args.push(tempArray);
+            loadingArray = false;
+        }
+        else if(pArg.length > 0) {
+            if(loadingArray) {
+                tempArray.push(pArg);
+            }
+            else {
+                args.push(pArg);
+            }
+        }
+    }
+    return args
 }
 
 function verifyArgsLength(argsLength, func, args, syntax) {

@@ -7,7 +7,7 @@ const syntax = {
     'deleteLocalAccount': 'deleteLocalAccount <account>',
     'updateLocalAccount': 'updateLocalAccount <account> <roleId> <dataHash>',
     'updateLocalAccountStatus': 'updateLocalAccountStatus <account> <active>',
-    'setAccountTargetAccess' : 'setAccountTargetAccess <account> <restricted> [allowedTarget_1] ... [allowedTarget_N]',
+    'setAccountTargetAccess' : 'setAccountTargetAccess <account> <restricted> [allowedTarget_1 ... allowedTarget_N]',
     'isAccountActive': 'isAccountActive <account>',
     'getAccount': 'getAccount <account>',
     'getNumberOfAccounts': 'getNumberOfAccounts',
@@ -57,14 +57,7 @@ const accountRulesV2 = {
         verifyArgsMinLength(2, func, args, syntax[func]);
         const account = args[0];
         const restricted = getBoolean(args[1]);
-        let allowedTargets;
-        const numArgs = args.length;
-        if(numArgs > 2) {
-            allowedTargets = args.slice(2, numArgs);
-        }
-        else {
-            allowedTargets = [];
-        }
+        const allowedTargets = args[2];
         const tx = await contract.setAccountTargetAccess(account, restricted, allowedTargets);
         await handleTx(tx);
         console.log(`\nRestrição de acesso configurada para a conta ${account}.`);
