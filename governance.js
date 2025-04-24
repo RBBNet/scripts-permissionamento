@@ -1,9 +1,9 @@
 const ethers = require('ethers');
-const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, help, getProposalStatus, getProposalResult, getVote } = require('./util.js');
+const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, help, getProposalStatus, getProposalResult, getVote, handleTx, getBoolean } = require('./util.js');
 const { GOVERNANCE_ABI } = require('./constants.js');
 
 const syntax = {
-    'createProposal': 'createProposal ???targets??? ???calldatas???, <blocksDuration>, <description>',
+    'createProposal': 'createProposal [target_1 ... target_N] [calldata_1 ... calldata_N], <blocksDuration>, <description>',
     'cancelProposal': 'cancelProposal <proposalId> <reason>',
     'castVote': 'castVote <proposalId> <approve>',
     'executeProposal': 'executeProposal <proposalId>',
@@ -33,6 +33,32 @@ function formatVotes(votes) {
 }
 
 const governance = {
+    'createProposal': async function (contract, func, args) {
+        verifyArgsLength(4, func, args, syntax[func]);
+        const targets = args[0];
+        const calldatas = args[1];
+        const blocksDuration = args[2];
+        const description = args[3];
+        const tx = await contract.createProposal(targets, calldatas, blocksDuration, description);
+        await handleTx(tx);
+        console.log('\nProposta criada.');
+    },
+    'cancelProposal': async function (contract, func, args) {
+        verifyArgsLength(2, func, args, syntax[func]);
+        const proposalId = args[0];
+        const reason = args[1];
+        const tx = await contract.cancelProposal(proposalId, reason);
+        await handleTx(tx);
+        console.log(`\nProposta ${proposalId} cancelada.`);
+    },
+    'castVote': async function (contract, func, args) {
+        verifyArgsLength(2, func, args, syntax[func]);
+        const proposalId = args[0];
+        const approve = getBoolean(args[1]);
+        const tx = await contract.castVote(proposalId, approve);
+        await handleTx(tx);
+        console.log(`\nVoto enviado para a roposta ${proposalId}.`);
+    },
     'getProposal': async function (contract, func, args) {
         verifyArgsLength(1, func, args, syntax[func]);
         const propId = args[0];
