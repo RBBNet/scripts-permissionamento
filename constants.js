@@ -6,6 +6,9 @@ const INGRESS_ABI = [
     'function getContractAddress(bytes32) public view returns(address)'
 ];
 const ORGANIZATION_ABI = [
+    'function addOrganization(string calldata cnpj, string calldata name, uint8 orgType, bool canVote) external returns (uint)',
+    'function updateOrganization(uint orgId, string calldata cnpj, string calldata name, uint8 orgType, bool canVote) external',
+    'function deleteOrganization(uint orgId) external',
     'function isOrganizationActive(uint orgId) external view returns (bool)',
     'function getOrganization(uint orgId) external view returns (tuple(uint id, string cnpj, string name, uint8 orgType, bool canVote) memory)',
     'function getOrganizations() external view returns (tuple(uint id, string cnpj, string name, uint8 orgType, bool canVote)[] memory)'
@@ -16,6 +19,9 @@ const ACCOUNT_RULES_V2_ABI = [
     'function updateLocalAccount(address account, bytes32 roleId, bytes32 dataHash) external',
     'function updateLocalAccountStatus(address account, bool active) external',
     'function setAccountTargetAccess(address account, bool restricted, address[] calldata allowedTargets) external',
+    'function addAccount(address account, uint orgId, bytes32 roleId, bytes32 dataHash) external',
+    'function deleteAccount(address account) external',
+    'function setSmartContractSenderAccess(address smartContract, bool restricted, address[] calldata allowedSenders) external',
     'function isAccountActive(address account) external view returns (bool)',
     'function getAccount(address account) external view returns (tuple(uint orgId, address account, bytes32 roleId, bytes32 dataHash, bool active) memory)',
     'function getNumberOfAccounts() external view returns (uint)',
@@ -34,6 +40,8 @@ const NODE_RULES_V2_ABI = [
     'function deleteLocalNode(bytes32 enodeHigh, bytes32 enodeLow) external',
     'function updateLocalNode(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string memory name) external',
     'function updateLocalNodeStatus(bytes32 enodeHigh, bytes32 enodeLow, bool active) external',
+    'function addNode(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string memory name, uint orgId) external',
+    'function deleteNode(bytes32 enodeHigh, bytes32 enodeLow) external',
     'function isNodeActive(bytes32 enodeHigh, bytes32 enodeLow) external view returns (bool)',
     'function getNode(bytes32 enodeHigh, bytes32 enodeLow) external view returns (tuple(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string name, uint orgId, bool active) memory)',
     'function getNumberOfNodes() external view returns (uint)',

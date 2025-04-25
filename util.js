@@ -100,6 +100,15 @@ function getNodeTypeName(type) {
     }
 }
 
+function getOrgType(type) {
+    switch(type) {
+        case 'Partner': return 0;
+        case 'Associate': return 1;
+        case 'Patron': return 2;
+        default: throw new Error('Tipo de organização inválido: ' + type);
+    }
+}
+
 function getOrgTypeName(type) {
     switch(parseInt(type, 10)) {
         case 0: return 'Partner';
@@ -238,6 +247,7 @@ module.exports = {
     getRole: getRole,
     getNodeType: getNodeType,
     getNodeTypeName: getNodeTypeName,
+    getOrgType: getOrgType,
     getOrgTypeName: getOrgTypeName,
     getVote: getVote,
     getProposalStatus: getProposalStatus,
