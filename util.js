@@ -1,11 +1,8 @@
-const fs = require('fs');
 const path = require('path');
 const ethers = require('ethers');
 
 require('dotenv').config();
 
-let paramsPath;
-let parameters;
 let jsonRpcUrl;
 let provider;
 let signer;
@@ -22,25 +19,8 @@ function getSigner() {
     return signer;
 }
 
-function getParameters() {
-    paramsPath = process.env['CONFIG_PARAMETERS'];
-    if(paramsPath == undefined) {
-        throw new Error('Variável de ambiente CONFIG_PARAMETERS não foi definida');
-    }
-    return JSON.parse(fs.readFileSync(paramsPath, 'utf8'));
-}
-
-function getParameter(name) {
-    const value = parameters[name];
-    if(value == undefined) {
-        throw new Error(`Parâmetro ${name} indefinido`);
-    }
-    return value;
-}
-
 function setup() {
-    parameters = getParameters();
-    jsonRpcUrl = getParameter('jsonRpcUrl');
+    jsonRpcUrl = process.env['JSON_RPC_URL'];
     provider = new ethers.JsonRpcProvider(jsonRpcUrl);
     signer = new ethers.Wallet(process.env['PRIVATE_KEY']);
     signer = signer.connect(provider);
@@ -49,7 +29,6 @@ function setup() {
 async function diagnostics() {
     const network = await provider.getNetwork();
     console.log('--------------------------------------------------');
-    console.log(`Parâmetros de configuração: ${paramsPath}`);
     console.log(`URL JSON RPC: ${jsonRpcUrl}`);
     console.log(`Network: ${network.name}`);
     console.log(`Conta em uso: ${signer.address}`);
@@ -239,10 +218,10 @@ module.exports = {
     getJsonRpcUrl: getJsonRpcUrl,
     getProvider: getProvider,
     getSigner: getSigner,
-    getParameter: getParameter,
     setup: setup,
     diagnostics: diagnostics,
     getFunctionArgs: getFunctionArgs,
+    getArgs: getArgs,
     verifyArgsLength: verifyArgsLength,
     verifyArgsMinLength: verifyArgsMinLength,
     getBoolean: getBoolean,

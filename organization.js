@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, getOrgTypeName, help } = require('./util.js');
+const { setup, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, getOrgTypeName, help } = require('./util.js');
 const { ORGANIZATION_ABI } = require('./constants.js');
 
 const syntax = {
@@ -33,7 +33,7 @@ const organization = {
 
 async function run() {
     await diagnostics();
-    const organizationAddress = getParameter('organizationAddress');
+    const organizationAddress = process.env['ORGANIZATION_ADDRESS'];
     console.log(`Organization: ${organizationAddress}\n`);
     
     const organizationContract = new ethers.Contract(organizationAddress, ORGANIZATION_ABI, getSigner());
