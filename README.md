@@ -17,6 +17,7 @@ npm install
 
 Os scripts dependem de parâmetros de configuração para sua execução. Os parâmetros devem ser configurados através de variáveis de ambiente ou através de arquivo `.env`. A saber:
 - `JSON_RPC_URL`: URL para interface JSON RPC do nó a ser usado para acesso à blockchain.
+- `ADMIN_ADDRESS`: Endereço do *smart contract* `Admin` da gen01.
 - `ORGANIZATION_ADDRESS`: Endereço do *smart contract* de `OrganizationImpl`.
 - `ACCOUNT_RULES_V2_ADDRESS`: Endereço do *smart contract* de `AccountRulesV2Impl`.
 - `GOVERNANCE_ADDRESS`: Endereço do *smart contract* de `Governance`.

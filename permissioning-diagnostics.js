@@ -21,7 +21,7 @@ async function adminDiagnostics() {
     console.log('--------------------------------------------------');
     console.log('Contas de admin master');
 
-    const adminAddress = getParameter('adminAddress');
+    const adminAddress = getParameter('ADMIN_ADDRESS');
     const adminContract = new ethers.Contract(adminAddress, ADMIN_ABI, getSigner());
     const admins = await adminContract.getAdmins();
     for(admin of admins) {
@@ -35,7 +35,7 @@ async function organizationDiagnostics() {
     console.log('--------------------------------------------------');
     console.log('Organizações');
 
-    const organizationAddress = getParameter('organizationAddress');
+    const organizationAddress = getParameter('ORGANIZATION_ADDRESS');
     const organizationContract = new ethers.Contract(organizationAddress, ORGANIZATION_ABI, getSigner());
     const orgs = await organizationContract.getOrganizations();
     for(org of orgs) {
@@ -49,7 +49,7 @@ async function accountsV2Diagnostics() {
     console.log('--------------------------------------------------');
     console.log('Contas');
 
-    const accountRulesV2Address = getParameter('accountRulesV2Address');
+    const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
     const accountsContract = new ethers.Contract(accountRulesV2Address, ACCOUNT_RULES_V2_ABI, getSigner());
     const numAccounts = await accountsContract.getNumberOfAccounts();
     if(numAccounts > 0) {
@@ -66,7 +66,7 @@ async function nodesV2Diagnostics() {
     console.log('--------------------------------------------------');
     console.log('Nós');
 
-    const nodeRulesV2Address = getParameter('nodeRulesV2Address');
+    const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
     const nodesContract = new ethers.Contract(nodeRulesV2Address, NODE_RULES_V2_ABI, getSigner());
     const numNodes = await nodesContract.getNumberOfNodes();
     if(numNodes > 0) {
