@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const ethers = require('ethers');
 
@@ -30,7 +31,7 @@ function getParameter(param) {
 function setup() {
     jsonRpcUrl = getParameter('JSON_RPC_URL');
     provider = new ethers.JsonRpcProvider(jsonRpcUrl);
-    signer = new ethers.Wallet(process.env['PRIVATE_KEY']);
+    signer = new ethers.Wallet(getPrivateKey());
     signer = signer.connect(provider);
 }
 
@@ -41,6 +42,18 @@ async function diagnostics() {
     console.log(`Network: ${network.name}`);
     console.log(`Conta em uso: ${signer.address}`);
     console.log();
+}
+
+function getPrivateKey() {
+    let privateKey = process.env['PRIVATE_KEY'];
+    if(privateKey === undefined) {
+        const privateKeyPath = process.env['PRIVATE_KEY_PATH'];
+        if(privateKeyPath === undefined) {
+            throw new Error('Não foi possível obter chave privada pelas variáveis PRIVATE_KEY e PRIVATE_KEY_PATH');
+        }
+        privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+    }
+    return privateKey;
 }
 
 function getBoolean(value) {

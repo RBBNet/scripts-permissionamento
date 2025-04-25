@@ -23,4 +23,6 @@ Os scripts dependem de parâmetros de configuração para sua execução. Os par
 - `GOVERNANCE_ADDRESS`: Endereço do *smart contract* de `Governance`.
 - `NODE_RULES_V2_ADDRESS`: Endereço do *smart contract* de `NodeRulesV2Impl`.
 - `PRIVATE_KEY`: Chave privada da conta a ser usada para envio de transações.
+- `PRIVATE_KEY_PATH`: Caminho de arquivo que contém a chave privada da conta a ser usada para envio de transações.
 
+**Observação**: Para definição da chave privada, deve-se usar **apenas uma** das seguintes variáveis: `PRIVATE_KEY` ou `PRIVATE_KEY_PATH`. Sendo que se ambas forem definidas, a variável `PRIVATE_KEY` terá prescedência.
