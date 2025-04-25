@@ -171,7 +171,7 @@ function getFunctionArgs(scriptFileName) {
     const scriptName = path.basename(scriptFileName);
     const numArgs = process.argv.length;
     if(numArgs < 3) {
-        console.log(`Utilizar sintaxe: node ${scriptName} <function> [...args]`);
+        console.log(`Utilizar sintaxe: node ${scriptName} <function> ...args...`);
         console.log(`Para ajuda, use:  node ${scriptName} help`);
         process.exit(1);
     }
