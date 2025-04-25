@@ -19,8 +19,16 @@ function getSigner() {
     return signer;
 }
 
+function getParameter(param) {
+    const value = process.env[param];
+    if(value === undefined) {
+        throw new Error(`Parâmetro de configuração não encontrado: ${param}`);
+    }
+    return value;
+}
+
 function setup() {
-    jsonRpcUrl = process.env['JSON_RPC_URL'];
+    jsonRpcUrl = getParameter('JSON_RPC_URL');
     provider = new ethers.JsonRpcProvider(jsonRpcUrl);
     signer = new ethers.Wallet(process.env['PRIVATE_KEY']);
     signer = signer.connect(provider);
@@ -218,6 +226,7 @@ module.exports = {
     getJsonRpcUrl: getJsonRpcUrl,
     getProvider: getProvider,
     getSigner: getSigner,
+    getParameter: getParameter,
     setup: setup,
     diagnostics: diagnostics,
     getFunctionArgs: getFunctionArgs,

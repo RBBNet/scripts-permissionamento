@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const { setup, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, verifyArgsMinLength, getBoolean, getRoleId, getRole, handleTx, help } = require('./util.js');
+const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, verifyArgsMinLength, getBoolean, getRoleId, getRole, handleTx, help } = require('./util.js');
 const { ACCOUNT_RULES_V2_ABI } = require('./constants.js');
 
 const syntax = {
@@ -163,7 +163,7 @@ const accountRulesV2 = {
 
 async function run() {
     await diagnostics();
-    const accountRulesV2Address = process.env['ACCOUNT_RULES_V2_ADDRESS'];
+    const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
     console.log(`AccountRulesV2Impl: ${accountRulesV2Address}\n`);
     
     const accountsContract = new ethers.Contract(accountRulesV2Address, ACCOUNT_RULES_V2_ABI, getSigner());

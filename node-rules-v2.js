@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const { setup, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, getNodeType, getNodeTypeName, getBoolean, handleTx, help } = require('./util.js');
+const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, getNodeType, getNodeTypeName, getBoolean, handleTx, help } = require('./util.js');
 const { NODE_RULES_V2_ABI } = require('./constants.js');
 
 const syntax = {
@@ -104,7 +104,7 @@ const nodeRulesV2 = {
 async function run() {
     await diagnostics();
     
-    const nodeRulesV2Address = process.env['NODE_RULES_V2_ADDRESS'];;
+    const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
     console.log(`NodeRulesV2Impl: ${nodeRulesV2Address}\n`);
     
     const nodesContract = new ethers.Contract(nodeRulesV2Address, NODE_RULES_V2_ABI, getSigner());

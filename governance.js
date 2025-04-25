@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const { setup, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, help, getProposalStatus, getProposalResult, getVote, handleTx, getBoolean } = require('./util.js');
+const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, help, getProposalStatus, getProposalResult, getVote, handleTx, getBoolean } = require('./util.js');
 const { GOVERNANCE_ABI } = require('./constants.js');
 
 const syntax = {
@@ -84,7 +84,7 @@ const governance = {
 
 async function run() {
     await diagnostics();
-    const governanceAddress = process.env['GOVERNANCE_ADDRESS'];
+    const governanceAddress = getParameter('GOVERNANCE_ADDRESS');
     console.log(`Governance: ${governanceAddress}\n`);
     
     const governanceContract = new ethers.Contract(governanceAddress, GOVERNANCE_ABI, getSigner());
