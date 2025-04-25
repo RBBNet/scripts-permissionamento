@@ -1,9 +1,22 @@
 const ethers = require('ethers');
 const path = require('path');
-const { getArgs, verifyArgsLength, getParameter, getOrgType, getBoolean, getNodeType, getRoleId } = require('./util.js');
-const { ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI } = require('./constants.js');
+const { getArgs, verifyArgsLength, getParameter, getOrgType, getBoolean, getNodeType, getRoleId, getIngressNameId } = require('./util.js');
+const { ADMIN_ABI, INGRESS_ABI, ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI, NODE_INGRESS_ADDRESS, ACCOUNT_INGRESS_ADDRESS } = require('./constants.js');
 
 const syntax = {
+    'AccountIngress': {
+        'setContractAddress': 'setContractAddress <name> <address>',
+        'removeContract': 'removeContract <name>'
+    },
+    'NodeIngress': {
+        'setContractAddress': 'setContractAddress <name> <address>',
+        'removeContract': 'removeContract <name>'
+    },
+    'Admin': {
+        'addAdmin': 'addAdmin <account>',
+        'removeAdmin': 'removeAdmin <account>',
+        'addAdmins': 'addAdmins [account_1 ... account_N]'
+    },
     'Organization': {
         'addOrganization': 'addOrganization <cnpj> <name> <orgType> <canVote>',
         'updateOrganization': 'updateOrganization <orgId> <cnpj> <name> <orgType> <canVote>',
@@ -20,6 +33,10 @@ const syntax = {
     }
 };
 
+const accountIngressContract = new ethers.Contract(ACCOUNT_INGRESS_ADDRESS, INGRESS_ABI);
+const nodeIngressContract = new ethers.Contract(NODE_INGRESS_ADDRESS, INGRESS_ABI);
+const adminAddress = getParameter('ADMIN_ADDRESS');
+const adminContract = new ethers.Contract(adminAddress, ADMIN_ABI);
 const organizationAddress = getParameter('ORGANIZATION_ADDRESS');
 const organizationContract = new ethers.Contract(organizationAddress, ORGANIZATION_ABI);
 const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
@@ -28,6 +45,56 @@ const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
 const nodesContract = new ethers.Contract(nodeRulesV2Address, NODE_RULES_V2_ABI);
 
 const contracts = {
+    'AccountIngress': {
+        'setContractAddress': function(contractName, functionName, args) {
+            verifyArgsLength(2, functionName, args, syntax[contractName][functionName]);
+            const name = getIngressNameId(args[0]);
+            const address = args[1];
+            const calldata = accountIngressContract.interface.encodeFunctionData(accountIngressContract.setContractAddress.fragment, [name, address]);
+            displayCalldata(contractName, functionName, args, ACCOUNT_INGRESS_ADDRESS, calldata);
+        },
+        'removeContract': function(contractName, functionName, args) {
+            verifyArgsLength(1, functionName, args, syntax[contractName][functionName]);
+            const name = getIngressNameId(args[0]);
+            const calldata = accountIngressContract.interface.encodeFunctionData(accountIngressContract.removeContract.fragment, [name]);
+            displayCalldata(contractName, functionName, args, ACCOUNT_INGRESS_ADDRESS, calldata);
+        }
+    },
+    'NodeIngress': {
+        'setContractAddress': function(contractName, functionName, args) {
+            verifyArgsLength(2, functionName, args, syntax[contractName][functionName]);
+            const name = getIngressNameId(args[0]);
+            const address = args[1];
+            const calldata = nodeIngressContract.interface.encodeFunctionData(nodeIngressContract.setContractAddress.fragment, [name, address]);
+            displayCalldata(contractName, functionName, args, NODE_INGRESS_ADDRESS, calldata);
+        },
+        'removeContract': function(contractName, functionName, args) {
+            verifyArgsLength(1, functionName, args, syntax[contractName][functionName]);
+            const name = getIngressNameId(args[0]);
+            const calldata = nodeIngressContract.interface.encodeFunctionData(nodeIngressContract.removeContract.fragment, [name]);
+            displayCalldata(contractName, functionName, args, NODE_INGRESS_ADDRESS, calldata);
+        }
+    },
+    'Admin': {
+        'addAdmin': function(contractName, functionName, args) {
+            verifyArgsLength(1, functionName, args, syntax[contractName][functionName]);
+            const account = args[0];
+            const calldata = adminContract.interface.encodeFunctionData(adminContract.addAdmin.fragment, [account]);
+            displayCalldata(contractName, functionName, args, adminAddress, calldata);
+        },
+        'removeAdmin': function(contractName, functionName, args) {
+            verifyArgsLength(1, functionName, args, syntax[contractName][functionName]);
+            const account = args[0];
+            const calldata = adminContract.interface.encodeFunctionData(adminContract.removeAdmin.fragment, [account]);
+            displayCalldata(contractName, functionName, args, adminAddress, calldata);
+        },
+        'addAdmins': function(contractName, functionName, args) {
+            verifyArgsLength(1, functionName, args, syntax[contractName][functionName]);
+            const accounts = args[0];
+            const calldata = adminContract.interface.encodeFunctionData(adminContract.addAdmins.fragment, [accounts]);
+            displayCalldata(contractName, functionName, args, adminAddress, calldata);
+        }
+    },
     'Organization': {
         'addOrganization': function(contractName, functionName, args) {
             verifyArgsLength(4, functionName, args, syntax[contractName][functionName]);

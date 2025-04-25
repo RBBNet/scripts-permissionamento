@@ -1,8 +1,13 @@
 const ADMIN_ABI = [
+    'function addAdmin(address) public returns (bool)',
+    'function removeAdmin(address) public returns (bool)',
+    'function addAdmins(address[]) public returns (bool)',
     'function isAuthorized(address) public view returns (bool)',
     'function getAdmins() public view returns (address[])'
 ];
 const INGRESS_ABI = [
+    'function setContractAddress(bytes32, address) public returns (bool)',
+    'function removeContract(bytes32) public returns(bool)',
     'function getContractAddress(bytes32) public view returns(address)'
 ];
 const ORGANIZATION_ABI = [

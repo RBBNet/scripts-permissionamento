@@ -118,6 +118,14 @@ function getOrgTypeName(type) {
     }
 }
 
+function getIngressNameId(name) {
+    switch(name) {
+        case 'RULES_CONTRACT': return '0x72756c6573000000000000000000000000000000000000000000000000000000';
+        case 'ADMIN_CONTRACT': return '0x61646d696e697374726174696f6e000000000000000000000000000000000000';
+        default: throw new Error('Nome inválido: ' + name);
+    }
+}
+
 function getVote(vote) {
     switch(parseInt(vote, 10)) {
         case 0: return 'NotVoted';
@@ -249,6 +257,7 @@ module.exports = {
     getNodeTypeName: getNodeTypeName,
     getOrgType: getOrgType,
     getOrgTypeName: getOrgTypeName,
+    getIngressNameId: getIngressNameId,
     getVote: getVote,
     getProposalStatus: getProposalStatus,
     getProposalResult: getProposalResult,
