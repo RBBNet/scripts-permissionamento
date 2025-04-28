@@ -179,7 +179,7 @@ function getCallParams() {
     const scriptName = path.basename(__filename);
     const numArgs = process.argv.length;
     if(numArgs < 3) {
-        console.log(`Utilizar sintaxe: node ${scriptName} <contract> <function> [...args]`);
+        console.log(`Utilizar sintaxe: node ${scriptName} <contract> <function> ...args...`);
         console.log(`Para ajuda, use:  node ${scriptName} help`);
         process.exit(1);
     }
