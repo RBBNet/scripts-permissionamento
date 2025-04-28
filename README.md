@@ -329,11 +329,11 @@ Para a utilização dos scripts, deve-se tomar cuidados ao fornecer os parâmetr
 
 #### Sensibilidade a letras maiúsculas e minúsculas
 
-De forma geral, os parâmetros são sensíveis na utilização de letras maiúsculas e minúsculas. Portanto, por exemplo, utilizar `AccountRulesV2Impl` é diferente de utilizar `accountrulesv2impl` e `addOrganization` é diferente de utilizar `AddOrganization`.
+De forma geral, os parâmetros são sensíveis na utilização de letras maiúsculas e minúsculas. Portanto, por exemplo, utilizar `AccountRulesV2Impl` é diferente de utilizar `accountrulesv2impl` e utilizar `addOrganization` é diferente de utilizar `AddOrganization`.
 
 #### Parâmetros address
 
-Parâmetros que representem valores do tipo `address` devem ser informados no formado `0x0000000000000000000000000000000000000000`. Isto é, um número hexadecimal de 40 dígitos precedido do prefixo `0x`.
+Parâmetros que representem valores do tipo `address` devem ser informados no formado `0x0000000000000000000000000000000000000000`. Isto é, um número hexadecimal de 40 dígitos precedido do prefixo `0x`.
 
 #### Parâmetros bytes32
 
