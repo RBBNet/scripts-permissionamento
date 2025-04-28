@@ -31,6 +31,58 @@ Os scripts dependem de parâmetros de configuração para sua execução. Os par
 ## Scripts
 
 
+### Diagnóstico de permissionamento da rede
+
+É possível fazer um diagnóstico rápido da situação do permissionamento da rede através do script `permissioning-diagnostics.js`.
+
+Para executar o diagnóstico:
+```
+node permissioning-diagnostics.js
+--------------------------------------------------
+URL JSON RPC: http://localhost:8545
+Network: unknown
+Conta em uso: 0x71bE63f3384f5fb98995898A86B02Fb2426c5788
+
+==================================================
+Gen01
+==================================================
+--------------------------------------------------
+Configuração do ponteiramento
+ AccountIngress está atualmente configurado para 0xb61675b164351767e5eCDC0Cc1e78E53f7fa5bd0
+ NodeIngress está atualmente configurado para 0x31c91FD3540b5cE5780AFe47E442814e229BC019
+
+--------------------------------------------------
+Contas de admin master
+ - 0x71bE63f3384f5fb98995898A86B02Fb2426c5788
+...
+
+==================================================
+Gen02
+==================================================
+--------------------------------------------------
+Organizações
+ - 1 33657248000189 BNDES Patron pode votar
+...
+
+--------------------------------------------------
+Contas
+ - 0x71bE63f3384f5fb98995898A86B02Fb2426c5788: Org 1, GLOBAL_ADMIN_ROLE, Data Hash 0x0000000000000000000000000000000000000000000000000000000000000000, Active true
+...
+
+--------------------------------------------------
+Nós
+ - 0x0000000000000000000000000000000000000000000000000000000000000001 0x0000000000000000000000000000000000000000000000000000000000000002: boot01, Org 1, Boot, Active true
+...
+```
+
+Como resultado, serão reportados:
+- Configuração de ponteiramento dos *smart contracts* de permissionamento de contas (`AccountIngress`) e de nós (`NodeIngress`).
+- Lista de contas de admin master.
+- Organizações cadastradas.
+- Contas permissionadas.
+- Nós permissionados.
+
+
 ### Permissionamento de contas
 
 Para o permisionamento de contas, deve-se usar o script `account-rules-v2.js`.
@@ -269,58 +321,6 @@ Target:
 Calldata:
 0x18aa38100000000000000000000000008626f6940e2eb28930efb4cef49b2d1f2c9c11990000000000000000000000000000000000000000000000000000000000000001d6e7d8560c69c7c18c2b8f3b45430215d788f128f0c04bc4a3607fe05eb5399f0000000000000000000000000000000000000000000000000000000000000000
 ```
-
-
-### Diagnóstico de permissionamento da rede
-
-É possível fazer um diagnóstico rápido da situação do permissionamento da rede através do script `permissioning-diagnostics.js`.
-
-Para executar o diagnóstico:
-```
-node permissioning-diagnostics.js
---------------------------------------------------
-URL JSON RPC: http://localhost:8545
-Network: unknown
-Conta em uso: 0x71bE63f3384f5fb98995898A86B02Fb2426c5788
-
-==================================================
-Gen01
-==================================================
---------------------------------------------------
-Configuração do ponteiramento
- AccountIngress está atualmente configurado para 0xb61675b164351767e5eCDC0Cc1e78E53f7fa5bd0
- NodeIngress está atualmente configurado para 0x31c91FD3540b5cE5780AFe47E442814e229BC019
-
---------------------------------------------------
-Contas de admin master
- - 0x71bE63f3384f5fb98995898A86B02Fb2426c5788
-...
-
-==================================================
-Gen02
-==================================================
---------------------------------------------------
-Organizações
- - 1 33657248000189 BNDES Patron pode votar
-...
-
---------------------------------------------------
-Contas
- - 0x71bE63f3384f5fb98995898A86B02Fb2426c5788: Org 1, GLOBAL_ADMIN_ROLE, Data Hash 0x0000000000000000000000000000000000000000000000000000000000000000, Active true
-...
-
---------------------------------------------------
-Nós
- - 0x0000000000000000000000000000000000000000000000000000000000000001 0x0000000000000000000000000000000000000000000000000000000000000002: boot01, Org 1, Boot, Active true
-...
-```
-
-Como resultado, serão reportados:
-- Configuração de ponteiramento dos *smart contracts* de permissionamento de contas (`AccountIngress`) e de nós (`NodeIngress`).
-- Lista de contas de admin master.
-- Organizações cadastradas.
-- Contas permissionadas.
-- Nós permissionados.
 
 
 ### Sintaxe de parâmetros
