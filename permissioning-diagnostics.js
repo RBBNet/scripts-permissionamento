@@ -55,7 +55,7 @@ async function accountsV2Diagnostics() {
     if(numAccounts > 0) {
         const accounts = await accountsContract.getAccounts(1, numAccounts);
         for(acc of accounts) {
-            console.log(` - ${acc[1]}: Org ${acc[0]}, Role ${getRole(acc[2])}, Data Hash ${acc[3]}, Active ${acc[4]}`);
+            console.log(` - ${acc[1]}: Org ${acc[0]}, ${getRole(acc[2])}, Data Hash ${acc[3]}, Active ${acc[4]}`);
         }
     }
     
@@ -72,7 +72,7 @@ async function nodesV2Diagnostics() {
     if(numNodes > 0) {
         const nodes = await nodesContract.getNodes(1, numNodes);
         for(node of nodes) {
-            console.log(` - ${node[0]} ${node[1]}: ${node[3]} Org ${node[4]} ${getNodeTypeName(node[2])}, Active ${node[5]}`);
+            console.log(` - ${node[0]} ${node[1]}: ${node[3]}, Org ${node[4]}, ${getNodeTypeName(node[2])}, Active ${node[5]}`);
         }
     }
 
