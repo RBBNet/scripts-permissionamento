@@ -64,8 +64,6 @@ const GOVERNANCE_ABI = [
     'function getProposals(uint pageNumber, uint pageSize) public view returns (tuple(uint id, uint proponentOrgId, address[] targets, bytes[] calldatas, uint blocksDuration, string description, uint creationBlock, uint8 status, uint8 result, uint[] organizations, uint8[] votes, string cancelationReason)[] memory)'
 ];
 const RULES_CONTRACT = '0x72756c6573000000000000000000000000000000000000000000000000000000';
-const NODE_INGRESS_ADDRESS = '0x0000000000000000000000000000000000009999';
-const ACCOUNT_INGRESS_ADDRESS = '0x0000000000000000000000000000000000008888';
 
 module.exports = {
     ADMIN_ABI: ADMIN_ABI,
@@ -74,7 +72,5 @@ module.exports = {
     ACCOUNT_RULES_V2_ABI: ACCOUNT_RULES_V2_ABI,
     NODE_RULES_V2_ABI: NODE_RULES_V2_ABI,
     GOVERNANCE_ABI: GOVERNANCE_ABI,
-    RULES_CONTRACT: RULES_CONTRACT,
-    NODE_INGRESS_ADDRESS: NODE_INGRESS_ADDRESS,
-    ACCOUNT_INGRESS_ADDRESS: ACCOUNT_INGRESS_ADDRESS
+    RULES_CONTRACT: RULES_CONTRACT
 }

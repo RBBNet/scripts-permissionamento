@@ -1,16 +1,18 @@
 const ethers = require('ethers');
 const { setup, getParameter, diagnostics, getSigner, getRole, getNodeTypeName, getOrgTypeName } = require('./util.js');
-const { RULES_CONTRACT, INGRESS_ABI, ACCOUNT_INGRESS_ADDRESS, NODE_INGRESS_ADDRESS, ADMIN_ABI, ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI } = require('./constants.js');
+const { RULES_CONTRACT, INGRESS_ABI, ADMIN_ABI, ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI } = require('./constants.js');
 
 async function ingressDiagnostics() {
     console.log('--------------------------------------------------');
     console.log('Configuração do ponteiramento');
 
-    const accountIngressContract = new ethers.Contract(ACCOUNT_INGRESS_ADDRESS, INGRESS_ABI, getSigner());
+    const accountIgressAddress = getParameter('ACCOUNT_INGRESS_ADDRESS');
+    const accountIngressContract = new ethers.Contract(accountIgressAddress, INGRESS_ABI, getSigner());
     const currentAccountRulessAddress = await accountIngressContract.getContractAddress(RULES_CONTRACT);
     console.log(` AccountIngress está atualmente configurado para ${currentAccountRulessAddress}`);
     
-    const nodeIngressContract = new ethers.Contract(NODE_INGRESS_ADDRESS, INGRESS_ABI, getSigner());
+    const nodeIgressAddress = getParameter('NODE_INGRESS_ADDRESS');
+    const nodeIngressContract = new ethers.Contract(nodeIgressAddress, INGRESS_ABI, getSigner());
     const currentNodeRulessAddress = await nodeIngressContract.getContractAddress(RULES_CONTRACT);
     console.log(` NodeIngress está atualmente configurado para ${currentNodeRulessAddress}`);
 

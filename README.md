@@ -17,6 +17,8 @@ npm install
 
 Os scripts dependem de parâmetros de configuração para sua execução. Os parâmetros devem ser configurados através de variáveis de ambiente ou através de arquivo `.env`. A saber:
 - `JSON_RPC_URL`: URL para interface JSON RPC do nó a ser usado para acesso à blockchain.
+- `ACCOUNT_INGRESS_ADDRESS`: Endereço do *smart contract* de `AccountIngress`. Para as redes lab e piloto da RBB, esse valor deverá ser `0x0000000000000000000000000000000000008888`, conforme definido em seus arquivos genesis de configuração.
+- `NODE_INGRESS_ADDRESS`: Endereço do *smart contract* de `NodeIngress`. Para as redes lab e piloto da RBB, esse valor deverá ser `0x0000000000000000000000000000000000009999`, conforme definido em seus arquivos genesis de configuração.
 - `ADMIN_ADDRESS`: Endereço do *smart contract* `Admin` da gen01.
 - `ORGANIZATION_ADDRESS`: Endereço do *smart contract* de `OrganizationImpl`.
 - `ACCOUNT_RULES_V2_ADDRESS`: Endereço do *smart contract* de `AccountRulesV2Impl`.
