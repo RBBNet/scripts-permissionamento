@@ -86,10 +86,9 @@ async function run() {
     await diagnostics();
     const governanceAddress = getParameter('GOVERNANCE_ADDRESS');
     console.log(`Governance: ${governanceAddress}\n`);
-    
     const governanceContract = new ethers.Contract(governanceAddress, GOVERNANCE_ABI, getSigner());
-    const [func, args] = getFunctionArgs(__filename);
 
+    const [func, args] = getFunctionArgs(__filename);
     if(func.toLowerCase() === 'help') {
         help(syntax);
         return;

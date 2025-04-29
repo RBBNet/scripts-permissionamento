@@ -103,13 +103,11 @@ const nodeRulesV2 = {
 
 async function run() {
     await diagnostics();
-    
     const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
     console.log(`NodeRulesV2Impl: ${nodeRulesV2Address}\n`);
-    
     const nodesContract = new ethers.Contract(nodeRulesV2Address, NODE_RULES_V2_ABI, getSigner());
-    const [func, args] = getFunctionArgs(__filename);
 
+    const [func, args] = getFunctionArgs(__filename);
     if(func.toLowerCase() === 'help') {
         help(syntax);
         return;

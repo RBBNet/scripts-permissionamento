@@ -165,10 +165,9 @@ async function run() {
     await diagnostics();
     const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
     console.log(`AccountRulesV2Impl: ${accountRulesV2Address}\n`);
-    
     const accountsContract = new ethers.Contract(accountRulesV2Address, ACCOUNT_RULES_V2_ABI, getSigner());
-    const [func, args] = getFunctionArgs(__filename);
 
+    const [func, args] = getFunctionArgs(__filename);
     if(func.toLowerCase() === 'help') {
         help(syntax);
         return;

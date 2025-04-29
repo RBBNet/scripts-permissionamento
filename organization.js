@@ -35,10 +35,9 @@ async function run() {
     await diagnostics();
     const organizationAddress = getParameter('ORGANIZATION_ADDRESS');
     console.log(`Organization: ${organizationAddress}\n`);
-    
     const organizationContract = new ethers.Contract(organizationAddress, ORGANIZATION_ABI, getSigner());
-    const [func, args] = getFunctionArgs(__filename);
 
+    const [func, args] = getFunctionArgs(__filename);
     if(func.toLowerCase() === 'help') {
         help(syntax);
         return;

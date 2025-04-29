@@ -111,7 +111,7 @@ async function nodesV2Diagnostics() {
     console.log();
 }
 
-async function permissioningDiagnostics() {
+async function run() {
     await diagnostics();
 
     console.log('==================================================');
@@ -129,4 +129,4 @@ async function permissioningDiagnostics() {
 }
 
 setup();
-permissioningDiagnostics();
+run();
