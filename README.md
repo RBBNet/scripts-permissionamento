@@ -85,6 +85,46 @@ Como resultado, serão reportados:
 - Nós permissionados.
 
 
+### Verificação de permissionamento de conta
+
+É possível verificar o permissionamento de uma conta, executando as regras da gen02, através do script `transaction-allowed.js`.
+
+Para obter ajuda:
+```
+node transaction-allowed.js
+
+...
+
+Utilizar sintaxe: node transaction-allowed.js <account> {target}
+Caso o parâmtro {target} não seja informado, será utilizado o endereço 0x0000000000000000000000000000000000000001
+```
+
+Exemplos de uso:
+```
+node transaction-allowed.js 0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199 0x90F79bf6EB2c4f870365E785982E1f101E93b906
+node transaction-allowed.js 0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199
+```
+
+
+### Verificação de permissionamento de nó
+
+É possível verificar o permissionamento de um nó, executando as regras da gen02, através do script `connection-allowed.js`.
+
+Para obter ajuda:
+```
+node connection-allowed.js
+
+...
+
+Utilizar sintaxe: node connection-allowed.js <enodeHigh> <enodeLow>
+```
+
+Exemplos de uso:
+```
+node connection-allowed.js 0x0000000000000000000000000000000000000000000000000000000000000001 0x0000000000000000000000000000000000000000000000000000000000000009
+```
+
+
 ### Permissionamento de contas
 
 Para o permisionamento de contas, deve-se usar o script `account-rules-v2.js`.

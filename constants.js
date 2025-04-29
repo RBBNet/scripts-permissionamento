@@ -38,7 +38,8 @@ const ACCOUNT_RULES_V2_ABI = [
     'function getRestrictedAccounts(uint pageNumber, uint pageSize) external view returns (address[] memory)',
     'function getSmartContractSenderAccess(address smartContract) external view returns (bool restricted, address[] memory)',
     'function getNumberOfRestrictedSmartContracts() external view returns (uint)',
-    'function getRestrictedSmartContracts(uint pageNumber, uint pageSize) external view returns (address[] memory)'
+    'function getRestrictedSmartContracts(uint pageNumber, uint pageSize) external view returns (address[] memory)',
+    'function transactionAllowed(address sender, address target, uint256 value, uint256 gasPrice, uint256 gasLimit, bytes calldata payload) external view returns (bool)'
 ];
 const NODE_RULES_V2_ABI = [
     'function addLocalNode(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string memory name) external',
@@ -52,7 +53,8 @@ const NODE_RULES_V2_ABI = [
     'function getNumberOfNodes() external view returns (uint)',
     'function getNumberOfNodesByOrg(uint orgId) external view returns (uint)',
     'function getNodes(uint pageNumber, uint pageSize) external view returns (tuple(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string name, uint orgId, bool active)[] memory)',
-    'function getNodesByOrg(uint orgId, uint pageNumber, uint pageSize) external view returns (tuple(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string name, uint orgId, bool active)[] memory)'
+    'function getNodesByOrg(uint orgId, uint pageNumber, uint pageSize) external view returns (tuple(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string name, uint orgId, bool active)[] memory)',
+    'function connectionAllowed(bytes32 sourceEnodeHigh, bytes32 sourceEnodeLow, bytes16 sourceEnodeIp, uint16 sourceEnodePort, bytes32 destinationEnodeHigh, bytes32 destinationEnodeLow, bytes16 destinationEnodeIp, uint16 destinationEnodePort) external view returns (bytes32)'
 ];
 const GOVERNANCE_ABI = [
     'function createProposal(address[] calldata targets, bytes[] memory calldatas, uint blocksDuration, string calldata description) public',
