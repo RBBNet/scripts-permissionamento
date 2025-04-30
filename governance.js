@@ -3,7 +3,7 @@ const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgs
 const { GOVERNANCE_ABI } = require('./constants.js');
 
 const syntax = {
-    'createProposal': 'createProposal [target_1 ... target_N] [calldata_1 ... calldata_N], <blocksDuration>, <description>',
+    'createProposal': 'createProposal [target_1 ... target_N] [calldata_1 ... calldata_N] <blocksDuration> <description>',
     'cancelProposal': 'cancelProposal <proposalId> <reason>',
     'castVote': 'castVote <proposalId> <approve>',
     'executeProposal': 'executeProposal <proposalId>',
