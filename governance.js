@@ -59,6 +59,13 @@ const governance = {
         await handleTx(tx);
         console.log(`\nVoto enviado para a roposta ${proposalId}.`);
     },
+    'executeProposal': async function (contract, func, args) {
+        verifyArgsLength(1, func, args, syntax[func]);
+        const proposalId = args[0];
+        const tx = await contract.executeProposal(proposalId);
+        await handleTx(tx);
+        console.log(`\nProposta ${proposalId} executada.`);
+    },
     'getProposal': async function (contract, func, args) {
         verifyArgsLength(1, func, args, syntax[func]);
         const propId = args[0];
