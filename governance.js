@@ -57,7 +57,7 @@ const governance = {
         const approve = getBoolean(args[1]);
         const tx = await contract.castVote(proposalId, approve);
         await handleTx(tx);
-        console.log(`\nVoto enviado para a roposta ${proposalId}.`);
+        console.log(`\nVoto enviado para a proposta ${proposalId}.`);
     },
     'executeProposal': async function (contract, func, args) {
         verifyArgsLength(1, func, args, syntax[func]);
