@@ -1,8 +1,0 @@
-{
-    "jsonRpcUrl": "http://localhost:8545",
-    "adminAddress": "0x72bb9c7ffbE2Ed234e53bc64862DdA6d9fFF333b",
-    "organizationAddress": "0xfEdf5D0eC5FCF22FfC28Ed352217ed879dB2D0af",
-    "accountRulesV2Address": "0xa6dDA3665B3980D4e1efFf2F4438033C6c779b22",
-    "nodeRulesV2Address": "0xCd50B9972abB2F10C65fbE3439EA3F83791F13DC",
-    "governanceAddress": "0xD5905E141dE60F2650B4e1b39B81E5957bF1aA78"
-}
