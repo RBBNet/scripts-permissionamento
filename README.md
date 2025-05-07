@@ -33,6 +33,27 @@ Os scripts dependem de parâmetros de configuração para sua execução. Os par
 ## Scripts
 
 
+### Geração de chave privada
+
+Para a geração de uma nova chave privada é possível utilizar o script `generate-key.js`.
+
+Exemplos de uso:
+```
+node generate-key.js
+
+*** ATENÇÃO ***
+Manter a chave privada sob sigilo, de forma segura.
+
+Conta / Endereço:           0x3Bf0000000000000000000000000000000000916
+Chave privada:              0x64600000000000000000000000000000000000000000000000000000000003d2
+Chave pública:              0x04d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000091c
+Chave pública (comprimida): 0x02d00000000000000000000000000000000000000000000000000000000000067e
+Frase mnemônica:            xxxxxx xxxxx xxxxxx xxxxx xxxxxxxx xxxx xxxxxxxx xxxxxx xxxxxx xxxxxxxx xxxxxxx xxxx
+```
+
+**ATENÇÃO**: **As chaves privadas devem ser guardadas de forma sigilosa e segura**.
+
+
 ### Diagnóstico de permissionamento da rede
 
 É possível fazer um diagnóstico rápido da situação do permissionamento da rede através do script `permissioning-diagnostics.js`.
