@@ -12,12 +12,46 @@ const syntax = {
     'getProposals': 'getProposals <pageNumber> <pageSize>'
 };
 
+const targetMap = new Map();
+
+function initFormatMaps() {
+    const accountIgressAddress = getParameter('ACCOUNT_INGRESS_ADDRESS');
+    if(accountIgressAddress) {
+        targetMap.set(accountIgressAddress, 'AccountIngress');
+    }
+    const nodeIgressAddress = getParameter('NODE_INGRESS_ADDRESS');
+    if(nodeIgressAddress) {
+        targetMap.set(nodeIgressAddress, 'NodeIngress');
+    }
+    const adminAddress = getParameter('ADMIN_ADDRESS');
+    if(adminAddress) {
+        targetMap.set(adminAddress, 'Admin');
+    }
+    const organizationAddress = getParameter('ORGANIZATION_ADDRESS');
+    if(organizationAddress) {
+        targetMap.set(organizationAddress, 'OrganizationImpl');
+    }
+    const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
+    if(accountRulesV2Address) {
+        targetMap.set(accountRulesV2Address, 'AccountRulesV2Impl');
+    }
+    const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
+    if(nodeRulesV2Address) {
+        targetMap.set(nodeRulesV2Address, 'NodeRulesV2Impl');
+    }
+}
+
 function formatTargets(targets) {
     let formated = '';
     for(t of targets) {
-        formated = formated + '\n  ' + t;
+        formated = formated + '\n  ' + formatTarget(t);
     }
     return formated;
+}
+
+function formatTarget(t) {
+    const targetName = targetMap.get(t);
+    return (targetName ? `${t} - (${targetName})` : t);
 }
 
 function formatCalldatas(calldatas) {
@@ -113,4 +147,5 @@ async function run() {
 }
 
 setup();
+initFormatMaps();
 run();
