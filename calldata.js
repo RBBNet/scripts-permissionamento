@@ -1,7 +1,7 @@
 const ethers = require('ethers');
 const path = require('path');
 const { getArgs, verifyArgsLength, getParameter, getOrgType, getBoolean, getNodeType, getRoleId, getIngressNameId } = require('./util.js');
-const { ADMIN_ABI, INGRESS_ABI, ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI } = require('./constants.js');
+const { ADMIN_ABI, INGRESS_ABI, ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI, GOVERNANCE_ABI } = require('./constants.js');
 
 const syntax = {
     'AccountIngress': {
@@ -30,6 +30,9 @@ const syntax = {
     'NodeRulesV2Impl': {
         'addNode': 'addNode <enodeHigh> <enodeLow> <nodeType> <name> <orgId>',
         'deletNode': 'deleteNode <enodeHigh> <enodeLow>'
+    },
+    'Governance': {
+        'cancelProposal': 'cancelProposal <proposalId> <reason>'
     }
 };
 
@@ -45,6 +48,8 @@ const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
 const accountsContract = new ethers.Contract(accountRulesV2Address, ACCOUNT_RULES_V2_ABI,);
 const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
 const nodesContract = new ethers.Contract(nodeRulesV2Address, NODE_RULES_V2_ABI);
+const governanceAddress = getParameter('NODE_RULES_V2_ADDRESS');
+const governanceContract = new ethers.Contract(governanceAddress, GOVERNANCE_ABI);
 
 const contracts = {
     'AccountIngress': {
@@ -166,7 +171,15 @@ const contracts = {
             const enodeLow = args[1];
             const calldata = nodesContract.interface.encodeFunctionData(nodesContract.deleteNode.fragment, [enodeHigh, enodeLow]);
             displayCalldata(contractName, functionName, args, nodeRulesV2Address, calldata);
-
+        }
+    },
+    'Governance': {
+        'cancelProposal': function(contractName, functionName, args) {
+            verifyArgsLength(2, functionName, args, syntax[contractName][functionName]);
+            const proposalId = args[0];
+            const reason = args[1];
+            const calldata = governanceContract.interface.encodeFunctionData(governanceContract.cancelProposal.fragment, [proposalId, reason]);
+            displayCalldata(contractName, functionName, args, governanceAddress, calldata);
         }
     }
 };
