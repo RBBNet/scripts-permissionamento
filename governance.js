@@ -1,6 +1,6 @@
 const ethers = require('ethers');
 const { setup, getParameter, diagnostics, getSigner, getFunctionArgs, verifyArgsLength, help, getProposalStatus, getProposalResult, getVote, handleTx, getBoolean } = require('./util.js');
-const { GOVERNANCE_ABI } = require('./constants.js');
+const { INGRESS_ABI, ADMIN_ABI, ORGANIZATION_ABI, ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI, GOVERNANCE_ABI } = require('./constants.js');
 
 const syntax = {
     'createProposal': 'createProposal [target_1 ... target_N] [calldata_1 ... calldata_N] <blocksDuration> <description>',
@@ -12,9 +12,28 @@ const syntax = {
     'getProposals': 'getProposals <pageNumber> <pageSize>'
 };
 
+const accountIgressAddress = getParameter('ACCOUNT_INGRESS_ADDRESS');
+const accountIngressContract = new ethers.Contract(accountIgressAddress, INGRESS_ABI);
+const adminAddress = getParameter('ADMIN_ADDRESS');
+const adminContract = new ethers.Contract(adminAddress, ADMIN_ABI);
+const organizationAddress = getParameter('ORGANIZATION_ADDRESS');
+const organizationContract = new ethers.Contract(organizationAddress, ORGANIZATION_ABI);
+const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
+const accountsContract = new ethers.Contract(accountRulesV2Address, ACCOUNT_RULES_V2_ABI,);
+const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
+const nodesContract = new ethers.Contract(nodeRulesV2Address, NODE_RULES_V2_ABI);
+const governanceAddress = getParameter('NODE_RULES_V2_ADDRESS');
+const governanceContract = new ethers.Contract(governanceAddress, GOVERNANCE_ABI);
+
 const targetMap = new Map();
+const calldataMap = new Map();
 
 function initFormatMaps() {
+    initTargetMap();
+    initCalldataMap();
+}
+
+function initTargetMap() {
     const accountIgressAddress = getParameter('ACCOUNT_INGRESS_ADDRESS');
     if(accountIgressAddress) {
         targetMap.set(accountIgressAddress, 'AccountIngress');
@@ -41,6 +60,27 @@ function initFormatMaps() {
     }
 }
 
+function getFunctionSelector(functionSignature) {
+    return ethers.id(functionSignature).substring(0,10);
+}
+
+function initCalldataMap() {
+    calldataMap.set(getFunctionSelector('setContractAddress(bytes32,address)'), [accountIngressContract, accountIngressContract.setContractAddress.fragment]);
+    calldataMap.set(getFunctionSelector('removeContract(bytes32)'), [accountIngressContract, accountIngressContract.removeContract.fragment]);
+    calldataMap.set(getFunctionSelector('addAdmin(address)'), [adminContract, adminContract.addAdmin.fragment]);
+    calldataMap.set(getFunctionSelector('removeAdmin(address)'), [adminContract, adminContract.removeAdmin.fragment]);
+    calldataMap.set(getFunctionSelector('addAdmins(address[])'), [adminContract, adminContract.addAdmins.fragment]);
+    calldataMap.set(getFunctionSelector('addOrganization(string,string,uint8,bool)'), [organizationContract, organizationContract.addOrganization.fragment]);
+    calldataMap.set(getFunctionSelector('updateOrganization(uint256,string,string,uint8,bool)'), [organizationContract, organizationContract.updateOrganization.fragment]);
+    calldataMap.set(getFunctionSelector('deleteOrganization(uint256)'), [organizationContract, organizationContract.deleteOrganization.fragment]);
+    calldataMap.set(getFunctionSelector('addAccount(address,uint256,bytes32,bytes32)'), [accountsContract, accountsContract.addAccount.fragment]);
+    calldataMap.set(getFunctionSelector('deleteAccount(address)'), [accountsContract, accountsContract.deleteAccount.fragment]);
+    calldataMap.set(getFunctionSelector('setSmartContractSenderAccess(address,bool,address[])'), [accountsContract, accountsContract.setSmartContractSenderAccess.fragment]);
+    calldataMap.set(getFunctionSelector('addNode(bytes32,bytes32,uint8,string,uint256)'), [nodesContract, nodesContract.addNode.fragment]);
+    calldataMap.set(getFunctionSelector('deleteNode(bytes32,bytes32) external'), [nodesContract, nodesContract.deleteNode.fragment]);
+    calldataMap.set(getFunctionSelector('cancelProposal(uint256,string)'), [governanceContract, governanceContract.cancelProposal.fragment]);
+}
+
 function formatTargets(targets) {
     let formated = '';
     for(t of targets) {
@@ -57,9 +97,29 @@ function formatTarget(t) {
 function formatCalldatas(calldatas) {
     let formated = '';
     for(c of calldatas) {
-        formated = formated + '\n  ' + c;
+        formated = formated + '\n  ' + formatCalldata(c);
     }
     return formated;
+}
+
+function formatCalldata(calldata) {
+    const funcSelector = calldata.substring(0, 10);
+    const funcFormaterData = calldataMap.get(funcSelector);
+    if(funcFormaterData) {
+        const contract = funcFormaterData[0];
+        const fragment = funcFormaterData[1];
+        const params = contract.interface.decodeFunctionData(fragment, calldata);
+        let call = fragment.name + '(';
+        for(let i = 0; i < params.length; ++i) {
+            if(i > 0) {
+                call = call + ',';
+            }
+            call = call + params[i];
+        }
+        call = call + ')';
+        calldata = calldata + '\n   ' + call;
+    }
+    return calldata;
 }
 
 function formatVotes(votes) {
