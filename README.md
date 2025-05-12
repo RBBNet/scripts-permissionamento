@@ -314,9 +314,9 @@ Para a criação de propostas de governança da rede (através da função `crea
 1. Os *targets*: endereços dos *smart contracts* a serem chamados.
 2. Os *calldatas*: dados de entrada, contendo a identificação da função a ser chamada e seus parâmetros de entrada, [codificados conforme a ABI](https://docs.soliditylang.org/en/latest/abi-spec.html) do *smart contract*.
 
-A obtenção e preparação de tais informações não são triviais e, caso sejam feitas de forma manual, são propensas a erro. Para reduzir o trabalho e os riscos envolvidos, pode-se utilizar o script `calldata.js`, que já funcionalidades para obtenção de *targets* e *calldatas* de *smart contracts* e funções pré-selecionadas, envolvendo atividades já previstas para serem executadas pela governança, como por exemplo o reponteiramento do permissionamento, gestão de administradores master e gestão de organizações.
+A obtenção e preparação de tais informações não são triviais e, caso sejam feitas de forma manual, são propensas a erro. Para reduzir o trabalho e os riscos envolvidos, pode-se utilizar o script `calldata.js`, que dispõe de funcionalidades para obtenção de *targets* e *calldatas* de *smart contracts* e funções pré-selecionadas, envolvendo atividades já previstas para serem executadas pela governança, como por exemplo o reponteiramento do permissionamento, a gestão de administradores master e a gestão de organizações.
 
-Para obter ajuda e saber as funções disponíveis:
+Para obter ajuda e saber os *smart contracts* e as funções disponíveis:
 ```
 node calldata.js help
 Contratos e funções disponíveis:
