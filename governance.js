@@ -91,7 +91,7 @@ function formatTargets(targets) {
 
 function formatTarget(t) {
     const targetName = targetMap.get(t);
-    return (targetName ? `${t} - (${targetName})` : t);
+    return (targetName ? `${t} (${targetName})` : t);
 }
 
 function formatCalldatas(calldatas) {
