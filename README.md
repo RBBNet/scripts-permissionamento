@@ -13,6 +13,9 @@ Para baixar as dependências do projeto:
 npm install
 ```
 
+Para entender melhor a organização do projeto e seu código fonte, consulte [este documento](docs/entendendo-o-codigo.md).
+
+
 ## Configuração
 
 Os scripts dependem de parâmetros de configuração para sua execução. Os parâmetros devem ser configurados através de variáveis de ambiente ou através de arquivo `.env`. A saber:
