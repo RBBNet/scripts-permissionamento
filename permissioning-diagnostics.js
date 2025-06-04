@@ -112,6 +112,7 @@ async function nodesV2Diagnostics() {
 }
 
 async function run() {
+    await setup();
     await diagnostics();
 
     console.log('==================================================');
@@ -128,5 +129,4 @@ async function run() {
     await nodesV2Diagnostics();
 }
 
-setup();
 run();

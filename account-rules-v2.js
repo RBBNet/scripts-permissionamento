@@ -162,6 +162,7 @@ const accountRulesV2 = {
 };
 
 async function run() {
+    await setup();
     await diagnostics();
     const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
     console.log(`AccountRulesV2Impl: ${accountRulesV2Address}\n`);
@@ -184,5 +185,4 @@ async function run() {
     await accountRulesV2[func](accountsContract, func, args);
 }
 
-setup();
 run();

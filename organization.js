@@ -32,6 +32,7 @@ const organization = {
 };
 
 async function run() {
+    await setup();
     await diagnostics();
     const organizationAddress = getParameter('ORGANIZATION_ADDRESS');
     console.log(`Organization: ${organizationAddress}\n`);
@@ -54,5 +55,4 @@ async function run() {
     await organization[func](organizationContract, func, args);
 }
 
-setup();
 run();

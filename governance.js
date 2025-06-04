@@ -184,6 +184,8 @@ const governance = {
 };
 
 async function run() {
+    await setup();
+    initFormatMaps();
     await diagnostics();
     const governanceAddress = getParameter('GOVERNANCE_ADDRESS');
     console.log(`Governance: ${governanceAddress}\n`);
@@ -206,6 +208,4 @@ async function run() {
     await governance[func](governanceContract, func, args);
 }
 
-setup();
-initFormatMaps();
 run();

@@ -7,6 +7,7 @@ const ZEROED_BYTES_16 = '0x00000000000000000000000000000000';
 const CONNECTION_ALLOWED = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
 async function run() {
+    await setup();
     await diagnostics();
     const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
     console.log(`NodeRulesV2Impl: ${nodeRulesV2Address}\n`);
@@ -34,5 +35,4 @@ async function run() {
     }
 }
 
-setup();
 run();

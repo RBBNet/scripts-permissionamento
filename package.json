@@ -2,8 +2,7 @@
   "name": "rbb-scripts-permissionamento",
   "version": "2.0.0",
   "description": "Scripts para execução de smart contracts de permissionamento da RBB",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RBBNet/scripts-permissionamento"
@@ -16,7 +15,8 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "dotenv": "^16.5.0",
-    "ethers": "^6.13.5"
+    "ethers": "^6.13.5",
+    "node-vault": "^0.10.2"
   },
   "homepage": "https://github.com/RBBNet/scripts-permissionamento#readme"
 }

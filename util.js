@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const ethers = require('ethers');
+const vault = require('./vault-client.js');
 
 require('dotenv').config();
 
@@ -28,10 +29,12 @@ function getParameter(param) {
     return value;
 }
 
-function setup() {
+async function setup(useVault = true) {
     jsonRpcUrl = getParameter('JSON_RPC_URL');
     provider = new ethers.JsonRpcProvider(jsonRpcUrl);
-    signer = new ethers.Wallet(getPrivateKey());
+    signer = 
+        useVault ? new ethers.Wallet(await getVaultPrivateKey()) :
+        new ethers.Wallet(getPrivateKey());
     signer = signer.connect(provider);
 }
 
@@ -54,6 +57,17 @@ function getPrivateKey() {
         privateKey = fs.readFileSync(privateKeyPath, 'utf8');
     }
     return privateKey;
+}
+
+async function getVaultPrivateKey() {
+    try {
+        const vaultClient = await vault.authenticate();
+        const data = await vault.readSecret(vaultClient);
+        // console.log(data);
+        return data.privateKey;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
 function getBoolean(value) {

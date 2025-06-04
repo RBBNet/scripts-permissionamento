@@ -7,6 +7,7 @@ const ZEROED_BYTES = '0x00';
 const NON_ZEROED_ADDRESS = '0x0000000000000000000000000000000000000001';
 
 async function run() {
+    await setup();
     await diagnostics();
     const accountRulesV2Address = getParameter('ACCOUNT_RULES_V2_ADDRESS');
     console.log(`AccountRulesV2Impl: ${accountRulesV2Address}\n`);
@@ -31,5 +32,4 @@ async function run() {
     }
 }
 
-setup();
 run();

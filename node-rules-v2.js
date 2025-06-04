@@ -102,6 +102,7 @@ const nodeRulesV2 = {
 };
 
 async function run() {
+    await setup();
     await diagnostics();
     const nodeRulesV2Address = getParameter('NODE_RULES_V2_ADDRESS');
     console.log(`NodeRulesV2Impl: ${nodeRulesV2Address}\n`);
@@ -124,5 +125,4 @@ async function run() {
     await nodeRulesV2[func](nodesContract, func, args);
 }
 
-setup();
 run();

@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "root" # should not be used for production
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK
+    command: "server -dev" # dev flag should not be used for production
+    volumes:
+      - vault_data:/vault/file
+
+volumes:
+  vault_data:
