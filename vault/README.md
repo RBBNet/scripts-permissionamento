@@ -2,7 +2,7 @@
 
 O script de configuração de acesso ao Vault [vault-client](../vault-client.js) assume configuração através de AppRole (RoleID + SecretID).
 
-> Obs1. Caso não tenha acesso a uma aplicação Vault, é possível [criar uma instância local do Vault em modo desenvolvimento](#rodar-vault-em-ambiente-local).
+> Obs1. Caso não tenha acesso a uma aplicação Vault, é possível [criar uma instância local do Vault em modo produção](#rodar-e-inicializar-vault-em-ambiente-local).
 
 > Obs2. Caso sua aplicação Vault não esteja configurada, [configure AppRole (RoleID + SecretID)](#configurar-autenticação-via-approle).
 
@@ -15,7 +15,9 @@ Defina as seguintes variáveis de ambiente para acessar o Vault:
 | `VAULT_ROLE_NAME`    | Nome base do secret path         | `rbb`             |
 | `VAULT_SECRET_NAME`    | Nome final do secret path          | `admin_wallet`             |
 
-Os demais scripts irão acessar a chave privada da conta armazenada em `${VAULT_ADDR}/v1/secret/data/{VAULT_ROLE_NAME}/{VAULT_SECRET_NAME}`.
+Os demais scripts irão acessar a chave privada da conta armazenada em `${VAULT_ADDR}/v1/secret/data/{VAULT_ROLE_NAME}/{VAULT_SECRET_NAME}`. 
+
+Verifique se a kv engine v2 está configurada para o caminho `secret/`. Verifique se AppRole está configurado para o caminho `approle/`. Verifique se o token de autenticação tem permissão para acessar o caminho do segredo. Verifique se o Vault está `unsealed`.
 
 > Não é preciso especificar `PRIVATE_KEY` ou `PRIVATE_KEY_PATH`.
 
@@ -39,29 +41,50 @@ A conta será armazenada como no exemplo:
 }
 ```
 
-## Rodar Vault em ambiente local
+> Verifique se os scripts estão chamando função `setup()` com o parâmetro `useVault=true`. É a opção default. 
 
-O arquivo [docker-compose.yaml](./docker-compose.yaml) cria um container Docker para o Vault em modo de desenvolvimento. O Vault será iniciado com um token `root`.
+## Rodar e Inicializar Vault em ambiente local
 
-> Não é recomendado usar token `root` em ambientes de produção. Para mais informações, consulte a [documentação oficial do Vault](https://developer.hashicorp.com/vault/tutorials/secrets-management/versioned-kv?variants=vault-deploy%3Aselfhosted#lab-setup).
+O arquivo [docker-compose.yaml](./docker-compose.yaml) cria um container Docker para o Vault em modo de produção, persistindo os segredos. Depois de rodá-lo, é preciso inicializar o Vault e configurar o token de root.
+
+> Não é recomendado usar o valor de token `root` em ambientes de produção. Para mais informações, consulte a [documentação oficial do Vault](https://developer.hashicorp.com/vault/tutorials/secrets-management/versioned-kv?variants=vault-deploy%3Aselfhosted#lab-setup).
 
 ```bash
 cd vault
 docker compose up -d
 ```
 
-O Vault estará disponível em `http://127.0.0.1:8200`
+O Vault estará disponível em `http://0.0.0.0:8200`
+
+Para inicializar o Vault, utilize o script [init-vault.sh](./init-vault.sh). Configure a quantidade de chaves de unseal. Especifique os parametros no arquivo `.env` na raiz do projeto:
+
+| Nome da Variável       | Descrição                                      | Valor Exemplo           |
+|-------------------------|------------------------------------------------|-------------------------|
+| `VAULT_ADDR`           | Endereço do servidor onde está hospedada a aplicação Vault                     | `http://127.0.0.1:8200` |            
+| `VAULT_KEY_SHARES`    | Quantidade de chaves de unseal a serem geradas         | `5`             |
+| `VAULT_KEY_THRESHOLD`    | Quantidade mínima de chaves para realizar unseal        | `3`             |
+
+Para inicializar o Vault, execute:
+
+```bash
+cd vault
+bash init-vault.sh
+```
+> As credenciais serão exibidas na tela. Guarde as chaves de unseal e o token de root em local seguro. Você precisará delas para acessar o Vault.
 
 ## Configurar autenticação via AppRole
 
-O script [app-vault.sh](./app-vault.sh) cria autenticação via AppRole. Especifique os parametros no arquivo `.env` na raiz do projeto:
+O script [app-vault.sh](./app-vault.sh) faz o unseal e configura autenticação via AppRole. Especifique os parametros no arquivo `.env` na raiz do projeto:
 
 
 | Nome da Variável       | Descrição                                      | Valor Exemplo           |
 |-------------------------|------------------------------------------------|-------------------------|
 | `VAULT_ADDR`           | Endereço do servidor onde está hospedada a aplicação Vault                     | `http://127.0.0.1:8200` |            
 | `VAULT_ROLE_NAME`    | Nome base do secret path         | `rbb`             |
-| `VAULT_TOKEN`    | Token de autenticação inicial         | `root`             |
+| `VAULT_TOKEN`    | (Opcional) Token de autenticação inicial         | `root`             |
+| `VAULT_UNSEAL_KEY_#`    | (Opcional) Chave `#` (índice) de unseal         |             |
+
+> Não é recomendado armazenar token e chaves de unseal no arquivo `.env` em ambientes de produção. Caso não especificado, o script irá solicitar as credenciais via terminal.
 
 Para gerar autenticação via AppRole, execute:
 
