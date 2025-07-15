@@ -19,7 +19,7 @@ Para entender melhor a organização do projeto e seu código fonte, consulte [e
 ## Configuração
 
 Os scripts dependem de parâmetros de configuração para sua execução. Os parâmetros devem ser configurados através de variáveis de ambiente ou através de arquivo `.env`. A saber:
-- `JSON_RPC_URL`: URL para interface JSON RPC do nó a ser usado para acesso à blockchain.
+- `JSON_RPC_URL`: URL para interface JSON RPC do nó a ser usado para acesso à blockchain. Preferencialmente esse endereço deve apontar para o nó *writer*.
 - `ACCOUNT_INGRESS_ADDRESS`: Endereço do *smart contract* de `AccountIngress`. Para as redes lab e piloto da RBB, esse valor deverá ser `0x0000000000000000000000000000000000008888`, conforme definido em seus arquivos genesis de configuração.
 - `NODE_INGRESS_ADDRESS`: Endereço do *smart contract* de `NodeIngress`. Para as redes lab e piloto da RBB, esse valor deverá ser `0x0000000000000000000000000000000000009999`, conforme definido em seus arquivos genesis de configuração.
 - `ADMIN_ADDRESS`: Endereço do *smart contract* `Admin` da gen01.
@@ -30,7 +30,9 @@ Os scripts dependem de parâmetros de configuração para sua execução. Os par
 - `PRIVATE_KEY`: Chave privada da conta a ser usada para envio de transações.
 - `PRIVATE_KEY_PATH`: Caminho de arquivo que contém a chave privada da conta a ser usada para envio de transações. O arquivo deve conter a chave privada representada como uma string no formado `0x0000000000000000000000000000000000000000000000000000000000000000`. Isto é, um número hexadecimal de 64 dígitos precedido do prefixo `0x`. O arquivo deve ser criado **sem quebra de linhas**.
 
-**Observação**: Para definição da chave privada, deve-se usar **apenas uma** das seguintes variáveis: `PRIVATE_KEY` ou `PRIVATE_KEY_PATH`. Sendo que se ambas forem definidas, a variável `PRIVATE_KEY` terá prescedência.
+**Observações**:
+- Para definição da chave privada, deve-se usar **apenas uma** das seguintes variáveis: `PRIVATE_KEY` ou `PRIVATE_KEY_PATH`. Sendo que se ambas forem definidas, a variável `PRIVATE_KEY` terá prescedência.
+- Os endereços dos contratos devem ser configurados conforme documentados na área reservada dos participantes da RBB.
 
 
 ## Scripts
