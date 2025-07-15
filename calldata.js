@@ -17,7 +17,7 @@ const syntax = {
         'removeAdmin': 'removeAdmin <account>',
         'addAdmins': 'addAdmins [account_1 ... account_N]'
     },
-    'Organization': {
+    'OrganizationImpl': {
         'addOrganization': 'addOrganization <cnpj> <name> <orgType> <canVote>',
         'updateOrganization': 'updateOrganization <orgId> <cnpj> <name> <orgType> <canVote>',
         'deleteOrganization': 'deleteOrganization <orgId>'
@@ -102,7 +102,7 @@ const contracts = {
             displayCalldata(contractName, functionName, args, adminAddress, calldata);
         }
     },
-    'Organization': {
+    'OrganizationImpl': {
         'addOrganization': function(contractName, functionName, args) {
             verifyArgsLength(4, functionName, args, syntax[contractName][functionName]);
             const cnpj = args[0];
