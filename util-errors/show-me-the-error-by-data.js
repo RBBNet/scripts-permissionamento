@@ -1,5 +1,5 @@
 const { keccak256, toUtf8Bytes } = require('ethers');
-const { ACCOUNT_RULES_V2_ABI, GOVERNANCE_ABI, ORGANIZATION_ABI, NODE_RULES_V2_ABI } = require('./abis');
+const { ACCOUNT_RULES_V2_ABI, GOVERNANCE_ABI, ORGANIZATION_ABI, NODE_RULES_V2_ABI } = require('../constants.js');
 
 let catalogEerrorsKeccak256 = {};
 
