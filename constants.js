@@ -16,7 +16,13 @@ const ORGANIZATION_ABI = [
     'function deleteOrganization(uint orgId) external',
     'function isOrganizationActive(uint orgId) external view returns (bool)',
     'function getOrganization(uint orgId) external view returns (tuple(uint id, string cnpj, string name, uint8 orgType, bool canVote) memory)',
-    'function getOrganizations() external view returns (tuple(uint id, string cnpj, string name, uint8 orgType, bool canVote)[] memory)'
+    'function getOrganizations() external view returns (tuple(uint id, string cnpj, string name, uint8 orgType, bool canVote)[] memory)',
+    'event OrganizationAdded(uint indexed orgId, string cnpj, string name, uint8 orgType, bool canVote)',
+    'event OrganizationUpdated(uint indexed orgId, string cnpj, string name, uint8 orgType, bool canVote)',
+    'event OrganizationDeleted(uint indexed orgId)',
+    'error OrganizationNotFound(uint orgId)',
+    'error InvalidArgument(string message)',
+    'error IllegalState(string message)'
 ];
 const ACCOUNT_RULES_V2_ABI = [
     'function addLocalAccount(address account, bytes32 roleId, bytes32 dataHash) external',
@@ -39,7 +45,23 @@ const ACCOUNT_RULES_V2_ABI = [
     'function getSmartContractSenderAccess(address smartContract) external view returns (bool restricted, address[] memory)',
     'function getNumberOfRestrictedSmartContracts() external view returns (uint)',
     'function getRestrictedSmartContracts(uint pageNumber, uint pageSize) external view returns (address[] memory)',
-    'function transactionAllowed(address sender, address target, uint256 value, uint256 gasPrice, uint256 gasLimit, bytes calldata payload) external view returns (bool)'
+    'function transactionAllowed(address sender, address target, uint256 value, uint256 gasPrice, uint256 gasLimit, bytes calldata payload) external view returns (bool)',
+    'event AccountAdded(address indexed account, uint indexed orgId, bytes32 roleId, bytes32 dataHash)',
+    'event AccountDeleted(address indexed account, uint indexed orgId)',
+    'event AccountUpdated(address indexed account, uint indexed orgId, bytes32 roleId, bytes32 dataHash)',
+    'event AccountStatusUpdated(address indexed account, uint indexed orgId, bool active)',
+    'event AccountTargetAccessUpdated(address indexed account, bool indexed restricted, address[] allowedTargets)',
+    'event SmartContractSenderAccessUpdated(address indexed smartContract, bool indexed restricted, address[] allowedSenders)',
+    'error InvalidArgument(string message)',
+    'error InactiveAccount(address account, string message)',
+    'error InvalidAccount(address account, string message)',
+    'error DuplicateAccount(address account)',
+    'error AccountNotFound(address account)',
+    'error NotLocalAccount(address account)',
+    'error InvalidOrganization(uint orgId, string message)',
+    'error InvalidRole(bytes32 roleId, string message)',
+    'error InvalidHash(bytes32 hash, string message)',
+    'error IllegalState(string message)'
 ];
 const NODE_RULES_V2_ABI = [
     'function addLocalNode(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string memory name) external',
@@ -54,7 +76,19 @@ const NODE_RULES_V2_ABI = [
     'function getNumberOfNodesByOrg(uint orgId) external view returns (uint)',
     'function getNodes(uint pageNumber, uint pageSize) external view returns (tuple(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string name, uint orgId, bool active)[] memory)',
     'function getNodesByOrg(uint orgId, uint pageNumber, uint pageSize) external view returns (tuple(bytes32 enodeHigh, bytes32 enodeLow, uint8 nodeType, string name, uint orgId, bool active)[] memory)',
-    'function connectionAllowed(bytes32 sourceEnodeHigh, bytes32 sourceEnodeLow, bytes16 sourceEnodeIp, uint16 sourceEnodePort, bytes32 destinationEnodeHigh, bytes32 destinationEnodeLow, bytes16 destinationEnodeIp, uint16 destinationEnodePort) external view returns (bytes32)'
+    'function connectionAllowed(bytes32 sourceEnodeHigh, bytes32 sourceEnodeLow, bytes16 sourceEnodeIp, uint16 sourceEnodePort, bytes32 destinationEnodeHigh, bytes32 destinationEnodeLow, bytes16 destinationEnodeIp, uint16 destinationEnodePort) external view returns (bytes32)',
+    'event NodeAdded(bytes32 indexed enodeHigh, bytes32 indexed enodeLow, uint indexed orgId, uint8 nodeType, string name)',
+    'event NodeDeleted(bytes32 indexed enodeHigh, bytes32 indexed enodeLow, uint indexed orgId)',
+    'event NodeUpdated(bytes32 indexed enodeHigh, bytes32 indexed enodeLow, uint indexed orgId, uint8 nodeType, string name)',
+    'event NodeStatusUpdated(bytes32 indexed enodeHigh, bytes32 indexed enodeLow, uint indexed orgId, bool active)',
+    'error InvalidArgument(string message)',
+    'error InactiveAccount(address account, string message)',
+    'error InvalidOrganization(uint orgId)',
+    'error NotLocalNode(bytes32 enodeHigh, bytes32 enodeLow)',
+    'error DuplicateNode(bytes32 enodeHigh, bytes32 enodeLow)',
+    'error NodeNotFound(bytes32 enodeHigh, bytes32 enodeLow)',
+    'error InvalidState(string message)',
+    'error InactiveNode(bytes32 enodeHigh, bytes32 enodeLow)'
 ];
 const GOVERNANCE_ABI = [
     'function createProposal(address[] calldata targets, bytes[] memory calldatas, uint blocksDuration, string calldata description) public',
@@ -63,7 +97,18 @@ const GOVERNANCE_ABI = [
     'function executeProposal(uint proposalId) public',
     'function getProposal(uint proposalId) public view returns (tuple(uint id, uint proponentOrgId, address[] targets, bytes[] calldatas, uint blocksDuration, string description, uint creationBlock, uint8 status, uint8 result, uint[] organizations, uint8[] votes, string cancelationReason) memory)',
     'function getNumberOfProposals() public view returns (uint)',
-    'function getProposals(uint pageNumber, uint pageSize) public view returns (tuple(uint id, uint proponentOrgId, address[] targets, bytes[] calldatas, uint blocksDuration, string description, uint creationBlock, uint8 status, uint8 result, uint[] organizations, uint8[] votes, string cancelationReason)[] memory)'
+    'function getProposals(uint pageNumber, uint pageSize) public view returns (tuple(uint id, uint proponentOrgId, address[] targets, bytes[] calldatas, uint blocksDuration, string description, uint creationBlock, uint8 status, uint8 result, uint[] organizations, uint8[] votes, string cancelationReason)[] memory)',
+    'event ProposalCreated(uint indexed proposalId, address[] targets, bytes[] calldatas, uint blocksDuration, string description)',
+    'event OrganizationVoted(uint indexed proposalId, uint orgId, bool approve)',
+    'event ProposalCanceled(uint indexed proposalId, string reason)',
+    'event ProposalFinished(uint indexed proposalId)',
+    'event ProposalApproved(uint indexed proposalId)',
+    'event ProposalRejected(uint indexed proposalId)',
+    'event ProposalExecuted(uint indexed proposalId)',
+    'error UnauthorizedAccess(address account, string message)',
+    'error IllegalState(string message)',
+    'error InvalidArgument(string message)',
+    'error ProposalNotFound(uint proposalId)'
 ];
 const RULES_CONTRACT = '0x72756c6573000000000000000000000000000000000000000000000000000000';
 

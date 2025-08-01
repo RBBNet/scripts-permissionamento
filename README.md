@@ -277,6 +277,39 @@ node organization.js getOrganizations
 **Observação**: Algumas funções da gestão de organizações somente podem ser executadas através de propostas de governança e, portanto, não estão disponíveis nesse script.
 
 
+### Utilitário para decodificação de erros retornados por *smart contracts* do permissionamento (gen02)
+
+O script `util/show-error-by-data.js` pode ser utilizado para decodificar erros retornados por *smart contracts* do permissionamento. Este script utiliza como entrada strings codificadas de dados de erro, conforme retornadas pelos *smart contracts* quando ocorrem erros. Essas strings são retornadas nas respostas das transações, no campo `data`.
+
+É possível passar ao script o valor integral do campo `data` ou apenas seus primeiros 10 caracteres, o que chamamos de "seletor".
+
+Exemplo de uso:
+```
+node util/show-error-by-data.js 0xfcbe8fe5
+ABIs onde o erro foi encontrado: ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI
+Erro: InactiveAccount(address,string)
+Descrição:error InactiveAccount(address account, string message)
+Seletor: 0xfcbe8fe5
+```
+
+Também é possível listar todos os seletores de erros conhecidos executando o script `util/list-all-errors.js`.
+
+Exemplo de uso:
+```
+node util/list-all-errors.js
+ABI: ACCOUNT_RULES_V2_ABI
+signature: 'InvalidArgument(string)'
+selector: '0x7ffc6cec'
+...
+
+
+ABI: GOVERNANCE_ABI
+signature: 'UnauthorizedAccess(address,string)'
+selector: '0x37b13c29'
+...
+```
+
+
 ### Gestão de propostas de governança
 
 Para a gestão de propostas de governança, deve-se usar o script `governance.js`.
