@@ -276,20 +276,37 @@ node organization.js getOrganizations
 
 **Observação**: Algumas funções da gestão de organizações somente podem ser executadas através de propostas de governança e, portanto, não estão disponíveis nesse script.
 
+
 ### Utilitário para decodificação de erros retornados por *smart contracts* do permissionamento (gen02)
-- Você pode utilizar o script `util-errors/show-me-the-error-by-data.js` para decodificar erros retornados por *smart contracts* do permissionamento.
-- Este script recenbe uma string 'data' que é retornada por um *smart contract* quando ocorre um erro. 
-- Você pode passar ao script o 'data' ou os primeiros 10 caracteres do 'data', o que chamaos de 'seletor'.
-- Exemplo de uso:
+
+O script `util/show-error-by-data.js` pode ser utilizado para decodificar erros retornados por *smart contracts* do permissionamento. Este script utiliza como entrada strings codificadas de dados de erro, conforme retornadas pelos *smart contracts* quando ocorrem erros. Essas strings são retornadas nas respostas das transações, no campo `data`.
+
+É possível passar ao script o valor integral do campo `data` ou apenas seus primeiros 10 caracteres, o que chamamos de "seletor".
+
+Exemplo de uso:
 ```
-node util-errors/show-me-the-error-by-data.js 0xfcbe8fe5
+node util/show-error-by-data.js 0xfcbe8fe5
 ABIs onde o erro foi encontrado: ACCOUNT_RULES_V2_ABI, NODE_RULES_V2_ABI
 Erro: InactiveAccount(address,string)
 Descrição:error InactiveAccount(address account, string message)
 Seletor: 0xfcbe8fe5
 ```
-- Vale observar que o script utiliza as definições de ABIs do arquivo `util-errors/abis.js`, que contém as definições de ABIs dos *smart contracts* de permissionamento da GEN02 da RBB.
-- Você também pode listar todos os selectores de erros conhecidos, executando o script `util-errors/list-all-errors.js`:
+
+Também é possível listar todos os seletores de erros conhecidos executando o script `util/list-all-errors.js`.
+
+Exemplo de uso:
+```
+node util/list-all-errors.js
+ABI: ACCOUNT_RULES_V2_ABI
+signature: 'InvalidArgument(string)'
+selector: '0x7ffc6cec'
+...
+
+
+ABI: GOVERNANCE_ABI
+signature: 'UnauthorizedAccess(address,string)'
+selector: '0x37b13c29'
+...
 ```
 
 
