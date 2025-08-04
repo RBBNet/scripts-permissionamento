@@ -23,12 +23,12 @@ async function main(){
 
     console.log(`\nReponteirando AccountIngress (de ${accountIngressAddr} para ${newAccountRulesAddr})`);
     const tx1 = await accountIngress.setContractAddress(RULES_CONTRACT, newAccountRulesAddr);
-    handleTx(tx1);
+    await handleTx(tx1);
     console.log("\nReponteiramento do AccountIngress concluido.");
 
     console.log(`\nReponteirando NodeIngress (de ${nodeIngressAddr} para ${newNodeRulesAddr})`);
     const tx2 = await nodeIngress.setContractAddress(RULES_CONTRACT, newNodeRulesAddr);
-    handleTx(tx2);
+    await handleTx(tx2);
     console.log("\nReponteiramento do NodeIngress concluido.");
 }
 
