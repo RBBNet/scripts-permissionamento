@@ -1,6 +1,6 @@
 const { ethers } = require("ethers");
-const { setup, diagnostics, getParameter, getSigner, handleTx } = require('./util.js');
-const { INGRESS_ABI, RULES_CONTRACT } = require('./constants.js');
+const { setup, diagnostics, getParameter, getSigner, handleTx } = require('../util.js');
+const { INGRESS_ABI, RULES_CONTRACT } = require('../constants.js');
 
 async function main(){
     await diagnostics();
